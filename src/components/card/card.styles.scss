@@ -1,0 +1,113 @@
+.card-wrapper {
+    height: 240px;
+    min-width: 30%;
+    position: relative;
+    flex: 1 1 auto;
+    cursor: pointer;
+    margin: 0.5rem;
+
+    & .image-wrapper {
+        height: 100%;
+        width: 100%;
+        overflow: hidden;
+
+        & .background-image {
+            height: 100%;
+            width: 100%;
+            opacity: 1;
+            background-size: cover;
+            background-position: center;
+            transition: transform 1s;
+            overflow: hidden;
+        }   
+    }
+
+    &:hover {
+        .background-image {
+            transform: scale(1.07);
+            overflow: hidden;
+        }
+
+        .card-body-container-without-overlay {
+            visibility: visible;
+        }
+    }
+
+    & .card-body-container-with-overlay {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        border: 1px solid white;
+        color: black;
+        padding: 0 1.5rem;
+        opacity: 0.8;
+        background-color: whitesmoke;
+        text-align: center;
+
+        &:hover {
+            opacity: 1;
+        }
+    }
+
+    & .card-body-container-without-overlay {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        border: 1px solid white;
+        color: black;
+        padding: 0 2rem;
+        opacity: 0.8;
+        background-color: whitesmoke;
+        text-align: center;
+        visibility: hidden;
+
+        &:hover {
+            background-color: black;
+            color: white;
+            border: none;
+            opacity: 1;
+            transition: transform 1s;
+            transform: translate(-50%, -50%) scale(1.05);
+        }
+    }
+
+    & .bottom {
+        top: 75%;
+    }
+
+    & .small {
+        h2 {
+            font-size: 1rem;
+        }
+    }
+
+    & .footer {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        font-size: 1.2rem;
+        padding: 0 0.5rem;
+    }
+}
+
+.large {
+    height: 330px;
+}
+
+.disable-image-transition {
+    & .shortened-image-wrapper {
+        & .background-image {
+            transform: scale(1)
+        }
+    }
+}
+
+.shortened-image-wrapper {
+    .image-wrapper {
+        height: 90%;
+    }
+}
+
+// ~

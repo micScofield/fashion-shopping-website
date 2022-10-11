@@ -1,0 +1,9 @@
+.form-container {
+    width: 45%; // Out of the given 70% of the screen width, each container has 45% ie. 2 forms separated by 2.5% each can be placed on a screen
+    display: flex;
+    flex-direction: column;
+
+    & .buttons-container {
+        margin: 2rem;
+    }
+}

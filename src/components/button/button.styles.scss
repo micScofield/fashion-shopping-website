@@ -1,0 +1,27 @@
+.button {
+    padding: 1rem 3rem;
+    border: 1px solid black;
+    background-color: black;
+    color: white;
+    justify-content: start;
+    cursor: pointer;
+    margin: 0 1rem;
+    opacity: 0.9;
+
+    &:hover {
+        background-color: white;
+        color: black;
+        opacity: 1;
+    }
+}
+
+.google-sign-in {
+    background-color: #4285f4;
+    color: white;
+
+    &:hover {
+        background-color: #357ae8;
+        color: white;
+        border: none;
+  }
+}

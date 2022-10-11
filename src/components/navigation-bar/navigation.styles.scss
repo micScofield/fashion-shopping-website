@@ -1,0 +1,45 @@
+.navigation {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 1rem;
+    position: relative;
+    height: 3rem;
+
+    & .nav-links-container {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+
+        & .nav-link {
+            margin: 0 1rem;
+            font-size: 1.2rem;
+
+            &:hover {
+                font-weight: bold;
+            }
+
+            & .cart-icon-container {
+                position: relative;
+            }
+
+            & .shopping-icon {
+                height: 1.5rem;
+            }
+
+            & .item-count-container {
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+                align-items: center;
+
+                & .item-count {
+                    position: absolute;
+                    font-size: 0.9rem;
+                    top: 19%;
+                }
+            }
+        }
+    }
+}
