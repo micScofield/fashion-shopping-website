@@ -35,7 +35,6 @@ const Authentication = () => {
 
   const onSignInSubmitHandler = async (e, payload, resetFormFields) => {
     e.preventDefault();
-    console.log('onSubmitHandler', payload, resetFormFields);
     const { email, password } = payload;
     try {
       await signInAuthUserWithEmailAndPassword(email, password);
