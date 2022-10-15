@@ -1,4 +1,4 @@
-import { useContext, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 // import { ProductContext } from 'contexts/product.context';
 // import { CartContext } from 'contexts/cart.context';
@@ -18,6 +18,8 @@ function Shop() {
   let productsCopy = JSON.parse(JSON.stringify(products));
   const navigate = useNavigate();
 
+  const [overlayText, setOverlayText] = useState('Add to Cart')
+
   useEffect(() => {
     const getCategories = async () => {
       const response = await getCategoriesAndDocuments();
@@ -29,7 +31,13 @@ function Shop() {
 
   const onOverlayClickHandler = (e, payload) => {
     const { id, imageUrl, name, price } = payload;
-    dispatch(addItemToCart({ id, imageUrl, name, price }));
+    // setOverlayText('Go to Bag &#x2192')
+
+    if (overlayText === 'Add to Cart') {
+      dispatch(addItemToCart({ id, imageUrl, name, price }));
+    } else {
+      navigate('/checkout')
+    }
   };
 
   const formattedProducts =
@@ -41,7 +49,7 @@ function Shop() {
           value1: productsCopy[productCategory][i].name,
           value2: `$${productsCopy[productCategory][i].price}`,
         };
-        productsCopy[productCategory][i]['overlay'] = ['Add to Cart'];
+        productsCopy[productCategory][i]['overlay'] = [overlayText];
         productsCopy[productCategory][i]['onOverlayClick'] = onOverlayClickHandler;
         productsCopy[productCategory][i]['overlayPosition'] = 'bottom';
         productsCopy[productCategory][i]['showOverlayByDefault'] = false;

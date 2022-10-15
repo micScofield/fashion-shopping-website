@@ -58,7 +58,7 @@ const Card = ({ cardData, large }) => {
             className={cardContainerCssClasses.join(' ')}
             onClick={(e) => onOverlayClick(e, cardData)}
           >
-            {overlay[0] && <h2>{overlay[0].toUpperCase()}</h2>}
+            {overlay[0] && <h2 dangerouslySetInnerHTML={{__html:overlay[0].toUpperCase()}} />}
             {overlay[1] && <p>{overlay[1]}</p>}
           </div>
         )}
