@@ -1,7 +1,7 @@
 import { Fragment } from 'react';
 
-import CardContainer from 'components/card-container/CardContainer';
 import { categories } from 'data/categories';
+import CardContainer from 'common/components/card-container/CardContainer';
 
 const Home = () => {
   for (let i = 0; i < categories?.length; i++) {

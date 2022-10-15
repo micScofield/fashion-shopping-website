@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 
-import 'components/card/card.styles.scss';
+import 'common/components/card/card.styles.scss';
 
 /*
 Overlay supports upto 2 values

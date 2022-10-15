@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 
-import { rootReducer } from 'store/root-reducer'
+import { rootReducer } from 'app/store/root-reducer'
 
 const customLoggerMiddleware = (store) => (next) => (action) => {
   if (!action.type) {

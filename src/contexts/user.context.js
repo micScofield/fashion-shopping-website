@@ -1,4 +1,4 @@
-import { createUserDocumentFromAuth, onAuthStateChangedListener } from 'utils/firebase/firebase.utils';
+import { createUserDocumentFromAuth, onAuthStateChangedListener } from 'common/utils/firebase/firebase.utils';
 
 const { createContext, useState, useEffect } = require('react');
 

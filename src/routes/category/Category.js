@@ -1,12 +1,12 @@
 import { useContext, useEffect } from 'react';
 
-import CardContainer from 'components/card-container/CardContainer';
 // import { ProductContext } from 'contexts/product.context';
 import { CartContext } from 'contexts/cart.context';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectProducts, setProducts } from 'store/product/product.slice';
-import { getCategoriesAndDocuments } from 'utils/firebase/firebase.utils';
+import { selectProducts, setProducts } from 'app/store/product.slice';
+import { getCategoriesAndDocuments } from 'common/utils/firebase/firebase.utils';
+import CardContainer from 'common/components/card-container/CardContainer';
 
 function Category() {
   // const { products } = useContext(ProductContext);

@@ -3,14 +3,14 @@ import { v4 } from 'uuid';
 
 import { ReactComponent as Logo } from 'assets/crown.svg';
 import { links } from 'data/nav-links';
-import NavigationBar from 'components/navigation-bar/NavigationBar';
-import CartIcon from 'components/app-specific/cart/cart-icon/CartIcon';
-import CartDropdown from 'components/app-specific/cart/cart-dropdown/CartDropdown';
+import CartIcon from 'features/cart/cart-icon/CartIcon';
+import CartDropdown from 'features/cart/cart-dropdown/CartDropdown';
 // import { UserContext } from 'contexts/user.context';
 import { CartContext } from 'contexts/cart.context';
-import { signOutUser } from 'utils/firebase/firebase.utils';
+import { signOutUser } from 'common/utils/firebase/firebase.utils';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectUser, setCurrentUser } from 'store/user/user.slice';
+import { selectUser, setCurrentUser } from 'app/store/user.slice';
+import NavigationBar from 'common/components/navigation-bar/NavigationBar';
 
 function Navigation() {
   // const { currentUser, setCurrentUser } = useContext(UserContext);

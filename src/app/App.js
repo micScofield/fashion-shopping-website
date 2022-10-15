@@ -10,8 +10,8 @@ import Category from 'routes/category/Category';
 import {
   createUserDocumentFromAuth,
   onAuthStateChangedListener,
-} from 'utils/firebase/firebase.utils';
-import { setCurrentUser } from 'store/user/user.slice';
+} from 'common/utils/firebase/firebase.utils';
+import { setCurrentUser } from 'app/store/user.slice';
 import { useDispatch } from 'react-redux';
 
 const App = () => {
