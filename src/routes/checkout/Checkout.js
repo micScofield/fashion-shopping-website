@@ -13,14 +13,6 @@ const Checkout = () => {
 
   const dispatch = useDispatch()
 
-  useEffect(() => {
-    const newCartTotal = cartItems.reduce(
-      (total, cartItem) => total + cartItem.quantity * cartItem.price,
-      0
-    );
-    dispatch(setCartTotal(newCartTotal));
-  }, [cartItems]);
-
   return (
     <div className='checkout-container-wrapper'>
       <div className='checkout-container'>
