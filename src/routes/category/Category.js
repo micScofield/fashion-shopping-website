@@ -7,10 +7,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectProducts, setProducts } from 'app/store/product.slice';
 import { getCategoriesAndDocuments } from 'common/utils/firebase/firebase.utils';
 import CardContainer from 'common/components/card-container/CardContainer';
+import { addItemToCart } from 'app/store/cart.slice';
 
 function Category() {
   // const { products } = useContext(ProductContext);
-  const { addItemToCart } = useContext(CartContext);
+  // const { addItemToCart } = useContext(CartContext);
 
   // identify product category from the URL
   const { category } = useParams();
@@ -31,7 +32,7 @@ function Category() {
 
   const onOverlayClickHandler = (e, payload) => {
     const { id, imageUrl, name, price } = payload;
-    addItemToCart({ id, imageUrl, name, price });
+    dispatch(addItemToCart({ id, imageUrl, name, price }));
   };
 
   const formattedProducts =

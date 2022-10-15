@@ -1,11 +1,25 @@
-import { useContext } from 'react';
+import { useEffect } from 'react';
 
-import { CartContext } from 'contexts/cart.context';
+// import { CartContext } from 'contexts/cart.context';
+import { selectCartItems, selectCartTotal, setCartTotal } from 'app/store/cart.slice';
+import { useDispatch, useSelector } from 'react-redux';
 import CheckoutItem from 'routes/checkout/CheckoutItem';
 import './checkout.styles.scss';
 
 const Checkout = () => {
-  const { cartItems, cartTotal } = useContext(CartContext);
+  // const { cartItems, cartTotal } = useContext(CartContext);
+  const cartTotal = useSelector(selectCartTotal)
+  const cartItems = useSelector(selectCartItems)
+
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    const newCartTotal = cartItems.reduce(
+      (total, cartItem) => total + cartItem.quantity * cartItem.price,
+      0
+    );
+    dispatch(setCartTotal(newCartTotal));
+  }, [cartItems]);
 
   return (
     <div className='checkout-container-wrapper'>

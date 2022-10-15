@@ -1,19 +1,21 @@
 import { useContext, useEffect } from 'react';
 
 // import { ProductContext } from 'contexts/product.context';
-import { CartContext } from 'contexts/cart.context';
+// import { CartContext } from 'contexts/cart.context';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectProducts, setProducts } from 'app/store/product.slice';
+import { addItemToCart } from 'app/store/cart.slice';
 import { getCategoriesAndDocuments } from 'common/utils/firebase/firebase.utils';
 import CardContainer from 'common/components/card-container/CardContainer';
 
 function Shop() {
   // const { products } = useContext(ProductContext);
+  // const { addItemToCart } = useContext(CartContext);
+
   const dispatch = useDispatch();
   const products = useSelector(selectProducts);
   let productsCopy = JSON.parse(JSON.stringify(products));
-  const { addItemToCart } = useContext(CartContext);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -27,7 +29,7 @@ function Shop() {
 
   const onOverlayClickHandler = (e, payload) => {
     const { id, imageUrl, name, price } = payload;
-    addItemToCart({ id, imageUrl, name, price });
+    dispatch(addItemToCart({ id, imageUrl, name, price }));
   };
 
   const formattedProducts =
