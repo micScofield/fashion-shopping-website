@@ -1,4 +1,4 @@
-import { Fragment } from 'react';
+import { Fragment, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 
 import Home from 'routes/home/Home';
@@ -7,8 +7,30 @@ import Authentication from 'routes/authentication/Authentication';
 import Shop from 'routes/shop/Shop';
 import Checkout from 'routes/checkout/Checkout';
 import Category from 'routes/category/Category';
+import {
+  createUserDocumentFromAuth,
+  onAuthStateChangedListener,
+} from 'utils/firebase/firebase.utils';
+import { setCurrentUser } from 'store/user/user.slice';
+import { useDispatch } from 'react-redux';
 
 const App = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChangedListener((user) => {
+      if (user) {
+        createUserDocumentFromAuth(user);
+      }
+      dispatch(setCurrentUser({
+        accessToken: user.accessToken,
+        id: user.id
+      }));
+    });
+
+    return unsubscribe;
+  }, []);
+
   return (
     <Fragment>
       <Navigation />

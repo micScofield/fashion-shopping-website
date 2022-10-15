@@ -6,18 +6,23 @@ import { links } from 'data/nav-links';
 import NavigationBar from 'components/navigation-bar/NavigationBar';
 import CartIcon from 'components/app-specific/cart/cart-icon/CartIcon';
 import CartDropdown from 'components/app-specific/cart/cart-dropdown/CartDropdown';
-import { UserContext } from 'contexts/user.context';
+// import { UserContext } from 'contexts/user.context';
 import { CartContext } from 'contexts/cart.context';
 import { signOutUser } from 'utils/firebase/firebase.utils';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectUser, setCurrentUser } from 'store/user/user.slice';
 
 function Navigation() {
-  const { currentUser, setCurrentUser } = useContext(UserContext);
+  // const { currentUser, setCurrentUser } = useContext(UserContext);
   const { isCartOpen, setIsCartOpen } = useContext(CartContext);
+
+  const dispatch = useDispatch()
+  const currentUser = useSelector(selectUser)
 
   const signOutHandler = async () => {
     await signOutUser();
 
-    setCurrentUser(null);
+    dispatch(setCurrentUser(null));
   };
 
   // cart
