@@ -1,7 +1,7 @@
 import React from 'react';
 
 import PropTypes from 'prop-types'
-import 'components/form/form-input.styles.scss';
+import 'common/components/form/form-input.styles.scss';
 
 function FormInput({
   id,

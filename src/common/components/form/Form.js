@@ -1,11 +1,11 @@
-import Button from 'components/button/Button';
+import Button from 'common/components/button/Button';
 import React, { Fragment, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
-import FormInput from './FormInput';
-import 'components/form/form.styles.scss';
-import { updateState } from 'utils/javascript/updateState';
-import { checkValidity } from 'utils/javascript/validity';
+import FormInput from 'common/components/form/FormInput';
+import 'common/components/form/form.styles.scss';
+import { updateState } from 'common/utils/javascript/updateState';
+import { checkValidity } from 'common/utils/javascript/validity';
 
 /*
 Idea of extFormData is to enable the feature where we can set form data explicitly. Thus we require a useEffect for it.
@@ -51,7 +51,6 @@ function Form(props) {
     });
 
     let isFormValid = true;
-    console.log({ updatedForm });
     for (let key in updatedForm) {
       isFormValid = updatedForm[key].valid && isFormValid;
     }
@@ -132,7 +131,6 @@ function Form(props) {
                 label
               },
             } = field;
-            console.log({field})
             return (
               <Fragment key={id}>
                 <FormInput

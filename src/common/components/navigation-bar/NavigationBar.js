@@ -2,8 +2,8 @@ import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-import 'components/navigation-bar/navigation.styles.scss';
-import NavTab from './NavTab';
+import 'common/components/navigation-bar/navigation.styles.scss';
+import NavTab from 'common/components/navigation-bar/NavTab';
 
 // supports only one on hover modal 
 

@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 
-import 'components/card/card.styles.scss';
+import 'common/components/card/card.styles.scss';
 
 /*
 Overlay supports upto 2 values
@@ -36,7 +36,7 @@ const Card = ({ cardData, large }) => {
   if (showOverlayByDefault)
     cardContainerCssClasses.push('card-body-container-with-overlay');
   else cardContainerCssClasses.push('card-body-container-without-overlay');
-  if (overlay.length < 2) cardContainerCssClasses.push('small');
+  if (overlay && overlay.length < 2) cardContainerCssClasses.push('small');
   if (overlayPosition === 'bottom') cardContainerCssClasses.push('bottom');
 
   return (

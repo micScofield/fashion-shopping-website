@@ -1,4 +1,3 @@
-import Form from 'components/form/Form';
 import './authentication.styles.scss';
 import { BUTTON_TYPE_CLASSES } from 'common/constants';
 import {
@@ -6,7 +5,7 @@ import {
   createUserDocumentFromAuth,
   createAuthUserWithEmailAndPassword,
   signInWithGooglePopup,
-} from 'utils/firebase/firebase.utils';
+} from 'common/utils/firebase/firebase.utils';
 
 import {
   signInFormButtons,
@@ -18,6 +17,7 @@ import {
   signUpFormFields,
   signUpFormHeaderData,
 } from 'routes/authentication/formInfo/signUp';
+import Form from 'common/components/form/Form';
 
 const Authentication = () => {
   const signInWithGoogle = async () => {
@@ -35,7 +35,6 @@ const Authentication = () => {
 
   const onSignInSubmitHandler = async (e, payload, resetFormFields) => {
     e.preventDefault();
-    console.log('onSubmitHandler', payload, resetFormFields);
     const { email, password } = payload;
     try {
       await signInAuthUserWithEmailAndPassword(email, password);

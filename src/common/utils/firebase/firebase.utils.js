@@ -20,7 +20,7 @@ import {
   getDocs,
 } from 'firebase/firestore';
 
-import { config } from 'utils/firebase/config';
+import { config } from 'common/utils/firebase/config';
 
 initializeApp(config);
 

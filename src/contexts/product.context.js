@@ -2,7 +2,7 @@
 import {
   // addCollectionAndDocuments,
   getCategoriesAndDocuments,
-} from 'utils/firebase/firebase.utils';
+} from 'common/utils/firebase/firebase.utils';
 
 const { createContext, useState, useEffect } = require('react');
 

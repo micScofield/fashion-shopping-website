@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Card from 'components/card/Card';
-import 'components/card-container/card-container.styles.scss';
+import Card from 'common/components/card/Card';
+import 'common/components/card-container/card-container.styles.scss';
 
 function CardContainer({
   title,

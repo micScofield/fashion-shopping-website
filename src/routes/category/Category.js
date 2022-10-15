@@ -1,38 +1,57 @@
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 
-import CardContainer from 'components/card-container/CardContainer';
-import { ProductContext } from 'contexts/product.context';
+// import { ProductContext } from 'contexts/product.context';
 import { CartContext } from 'contexts/cart.context';
 import { useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectProducts, setProducts } from 'app/store/product.slice';
+import { getCategoriesAndDocuments } from 'common/utils/firebase/firebase.utils';
+import CardContainer from 'common/components/card-container/CardContainer';
+import { addItemToCart } from 'app/store/cart.slice';
 
 function Category() {
-  const { products } = useContext(ProductContext);
-  const { addItemToCart } = useContext(CartContext);
+  // const { products } = useContext(ProductContext);
+  // const { addItemToCart } = useContext(CartContext);
 
   // identify product category from the URL
   const { category } = useParams();
 
+  // const { products } = useContext(ProductContext);
+  const dispatch = useDispatch();
+  const products = useSelector(selectProducts);
+  let productsCopy = JSON.parse(JSON.stringify(products));
+
+  useEffect(() => {
+    const getCategories = async () => {
+      const response = await getCategoriesAndDocuments();
+      dispatch(setProducts(response));
+    };
+
+    getCategories();
+  }, []);
+
   const onOverlayClickHandler = (e, payload) => {
     const { id, imageUrl, name, price } = payload;
-    addItemToCart({ id, imageUrl, name, price });
+    dispatch(addItemToCart({ id, imageUrl, name, price }));
   };
 
   const formattedProducts =
-    products &&
-    Object.keys(products).map((productCategory) => {
+    productsCopy &&
+    Object.keys(productsCopy).map((productCategory) => {
       let res = {};
-      for (let i = 0; i < products[productCategory].length; i++) {
-        products[productCategory][i]['footer'] = {
-          value1: products[productCategory][i].name,
-          value2: `$${products[productCategory][i].price}`,
+      for (let i = 0; i < productsCopy[productCategory].length; i++) {
+        productsCopy[productCategory][i]['footer'] = {
+          value1: productsCopy[productCategory][i].name,
+          value2: `$${productsCopy[productCategory][i].price}`,
         };
-        products[productCategory][i]['overlay'] = ['Add to Cart'];
-        products[productCategory][i]['onOverlayClick'] = onOverlayClickHandler;
-        products[productCategory][i]['overlayPosition'] = 'bottom';
-        products[productCategory][i]['showOverlayByDefault'] = false;
-        products[productCategory][i]['disableImageTransition'] = false;
+        productsCopy[productCategory][i]['overlay'] = ['Add to Cart'];
+        productsCopy[productCategory][i]['onOverlayClick'] =
+          onOverlayClickHandler;
+        productsCopy[productCategory][i]['overlayPosition'] = 'bottom';
+        productsCopy[productCategory][i]['showOverlayByDefault'] = false;
+        productsCopy[productCategory][i]['disableImageTransition'] = false;
       }
-      res[productCategory] = products[productCategory];
+      res[productCategory] = productsCopy[productCategory];
       return res;
     });
 
