@@ -12,7 +12,9 @@ const userSlice = createSlice({
   }
 })
 
-export const selectUser = (state) => state.user.currentUser
+export const selectUser = (state) => {
+  return state.user?.currentUser
+}
 
 export const { setCurrentUser } = userSlice.actions
 export default userSlice.reducer

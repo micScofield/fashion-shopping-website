@@ -24,7 +24,7 @@ const App = () => {
       }
       dispatch(setCurrentUser({
         accessToken: user ? user.accessToken : null,
-        id: user ? user.id : null
+        id: user ? user.uid : null
       }));
     });
 

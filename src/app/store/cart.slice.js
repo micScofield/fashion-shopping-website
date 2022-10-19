@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, createSelector } from '@reduxjs/toolkit';
 
 let addCartItem = (cartItems, productToAdd) => {
   const existingCartItem = cartItems.find(
@@ -60,18 +60,28 @@ const cartSlice = createSlice({
   },
 });
 
-export const selectIsCartOpen = (state) => state.cart.isCartOpen;
+// Cart Dropdown
+export const selectIsCartOpen = (state) => state.cart?.isCartOpen;
+
+// Cart total for checkout
 export const selectCartTotal = (state) =>
-  state.cart.cartItems.reduce(
+  state.cart?.cartItems.reduce(
     (total, cartItem) => total + cartItem.quantity * cartItem.price,
     0
   );
-export const selectCartCount = (state) =>
-  state.cart.cartItems.reduce(
-    (total, cartItem) => total + cartItem.quantity,
-    0
-  );
-export const selectCartItems = (state) => state.cart.cartItems;
+
+// Cart items selector
+export const selectCartItems = (state) => state.cart?.cartItems;
+
+// Example: Memoizing cart count to prevent expensive calculations
+const selectoCartCountForSelector = (state) => state.cart?.cartItems;
+export const selectCartCount = createSelector(
+  selectoCartCountForSelector,
+  (items) => {
+    console.log('cart count selector fired');
+    return items.reduce((total, cartItem) => total + cartItem.quantity, 0);
+  }
+);
 
 export const {
   addItemToCart,

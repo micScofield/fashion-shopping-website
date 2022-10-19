@@ -6,37 +6,43 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectProducts, setProducts } from 'app/store/product.slice';
 import { addItemToCart } from 'app/store/cart.slice';
-import { getCategoriesAndDocuments } from 'common/utils/firebase/firebase.utils';
 import CardContainer from 'common/components/card-container/CardContainer';
+import { useGetProductsQuery } from 'app/store/api/product.api';
+
+const overlayTextValues = {
+  ADD_TO_CART: 'Add to Cart',
+  GO_TO_BAG: 'Go to Bag &#x2192'
+}
 
 function Shop() {
   // const { products } = useContext(ProductContext);
   // const { addItemToCart } = useContext(CartContext);
-
-  const dispatch = useDispatch();
-  const products = useSelector(selectProducts);
-  let productsCopy = JSON.parse(JSON.stringify(products));
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const {
+    data: products,
+    isLoading,
+    isError,
+    isSuccess,
+  } = useGetProductsQuery();
+
+  products && dispatch(setProducts(products));
 
   const [overlayText, setOverlayText] = useState('Add to Cart')
+  const [isCardActive, setIsCardActive] = useState('Add to Cart')
 
-  useEffect(() => {
-    const getCategories = async () => {
-      const response = await getCategoriesAndDocuments();
-      dispatch(setProducts(response));
-    };
-
-    getCategories();
-  }, []);
+  let productsCopy =
+    !isLoading && isSuccess && products && JSON.parse(JSON.stringify(products));
 
   const onOverlayClickHandler = (e, payload) => {
     const { id, imageUrl, name, price } = payload;
-    // setOverlayText('Go to Bag &#x2192')
+    setOverlayText(overlayTextValues.GO_TO_BAG)
 
-    if (overlayText === 'Add to Cart') {
+    if (overlayText === overlayTextValues.ADD_TO_CART) {
       dispatch(addItemToCart({ id, imageUrl, name, price }));
     } else {
-      navigate('/checkout')
+      navigate('/checkout');
     }
   };
 
@@ -68,7 +74,11 @@ function Shop() {
 
   const onTitleClickHandler = (route) => navigate(`/shop/${route}`);
 
-  return (
+  isError && alert('Something went wrong !!!');
+
+  return isLoading ? (
+    <div>Loading...</div>
+  ) : (
     <div>
       {/* On the shop landing page, we want limited products to list, hence slicing the products array */}
       {res &&

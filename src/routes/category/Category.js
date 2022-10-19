@@ -1,11 +1,8 @@
-import { useContext, useEffect } from 'react';
-
 // import { ProductContext } from 'contexts/product.context';
-import { CartContext } from 'contexts/cart.context';
+// import { CartContext } from 'contexts/cart.context';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectProducts, setProducts } from 'app/store/product.slice';
-import { getCategoriesAndDocuments } from 'common/utils/firebase/firebase.utils';
+import { selectProducts } from 'app/store/product.slice';
 import CardContainer from 'common/components/card-container/CardContainer';
 import { addItemToCart } from 'app/store/cart.slice';
 
@@ -20,15 +17,6 @@ function Category() {
   const dispatch = useDispatch();
   const products = useSelector(selectProducts);
   let productsCopy = JSON.parse(JSON.stringify(products));
-
-  useEffect(() => {
-    const getCategories = async () => {
-      const response = await getCategoriesAndDocuments();
-      dispatch(setProducts(response));
-    };
-
-    getCategories();
-  }, []);
 
   const onOverlayClickHandler = (e, payload) => {
     const { id, imageUrl, name, price } = payload;

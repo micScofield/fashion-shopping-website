@@ -14,9 +14,9 @@ const Home = () => {
 
   for (let i = 0; i < categories?.length; i++) {
     categories[i].overlay = [categories[i].title, categories[i].subText];
+    categories[i].onOverlayClick = onOverlayClickHandler;
     categories[i].overlayPosition = 'middle'; // default
     categories[i].showOverlayByDefault = true;
-    categories[i].onOverlayClick = onOverlayClickHandler;
   }
 
   return (

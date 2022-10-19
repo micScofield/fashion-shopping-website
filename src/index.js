@@ -15,15 +15,15 @@ const root = createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <PersistGate loading={null}  persistor={persistor}>
+      <PersistGate loading={<div>Loading state from local storage...</div>} persistor={persistor}>
         <BrowserRouter>
-          {/* <UserProvider> */}
-          {/* <ProductProvider> */}
-          {/* <CartProvider> */}
-          <App />
-          {/* </CartProvider> */}
-          {/* </ProductProvider> */}
-          {/* </UserProvider> */}
+            {/* <UserProvider> */}
+            {/* <ProductProvider> */}
+            {/* <CartProvider> */}
+            <App />
+            {/* </CartProvider> */}
+            {/* </ProductProvider> */}
+            {/* </UserProvider> */}
         </BrowserRouter>
       </PersistGate>
     </Provider>

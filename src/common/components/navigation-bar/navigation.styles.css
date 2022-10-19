@@ -1,0 +1,71 @@
+.navigation {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  margin-top: 1rem;
+  position: relative;
+  height: 3rem;
+}
+
+.navigation .nav-links-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.navigation .nav-links-container .nav-link {
+  margin: 0 1rem;
+  font-size: 1.2rem;
+}
+
+.navigation .nav-links-container .nav-link:hover {
+  font-weight: bold;
+}
+
+.navigation .nav-links-container .nav-link .cart-icon-container {
+  position: relative;
+}
+
+.navigation .nav-links-container .nav-link .shopping-icon {
+  height: 1.5rem;
+}
+
+.navigation .nav-links-container .nav-link .item-count-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.navigation .nav-links-container .nav-link .item-count-container .item-count {
+  position: absolute;
+  font-size: 0.9rem;
+  top: 19%;
+}
+/*# sourceMappingURL=navigation.styles.css.map */

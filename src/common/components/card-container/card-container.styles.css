@@ -1,0 +1,38 @@
+.card-container-flex {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  margin: 2rem 0;
+}
+
+.card-container-grid {
+  margin: 2rem 0;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: (1fr)[4];
+      grid-template-columns: repeat(4, 1fr);
+}
+
+.card-container-title {
+  cursor: pointer;
+}
+
+.card-container-title-position-left {
+  font-size: 1.7rem;
+  text-align: left;
+}
+
+.card-container-title-position-center {
+  text-align: center;
+  font-size: 2rem;
+}
+/*# sourceMappingURL=card-container.styles.css.map */
