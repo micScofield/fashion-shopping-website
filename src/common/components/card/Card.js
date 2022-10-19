@@ -60,7 +60,7 @@ const Card = ({ cardData, large }) => {
         {overlay && (
           <div
             className={cardContainerCssClasses.join(' ')}
-            onClick={(e) => onOverlayClick(e, cardData)}
+            onClick={(e) => onOverlayClick(e, { cardData, currentText: overlay[0] })}
           >
             {overlay[0] && <h2 dangerouslySetInnerHTML={{__html: overlay[0]}} />}
             {overlay[1] && <p>{overlay[1]}</p>}

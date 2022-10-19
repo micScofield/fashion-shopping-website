@@ -11,8 +11,8 @@ import { useGetProductsQuery } from 'app/store/api/product.api';
 
 const overlayTextValues = {
   ADD_TO_CART: 'Add to Cart',
-  GO_TO_BAG: 'Go to Bag &#x2192'
-}
+  GO_TO_BAG: 'Go to Bag &#x2192',
+};
 
 function Shop() {
   // const { products } = useContext(ProductContext);
@@ -29,17 +29,21 @@ function Shop() {
 
   products && dispatch(setProducts(products));
 
-  const [overlayText, setOverlayText] = useState('Add to Cart')
-  const [isCardActive, setIsCardActive] = useState('Add to Cart')
+  // const [overlayText, setOverlayText] = useState('Add to Cart')
+  const [activeCard, setActiveCard] = useState(null);
 
   let productsCopy =
     !isLoading && isSuccess && products && JSON.parse(JSON.stringify(products));
 
   const onOverlayClickHandler = (e, payload) => {
-    const { id, imageUrl, name, price } = payload;
-    setOverlayText(overlayTextValues.GO_TO_BAG)
+    const {
+      cardData: { id, imageUrl, name, price },
+      currentText,
+    } = payload;
+    // id === activeCard && setOverlayText(overlayTextValues.GO_TO_BAG)
+    setActiveCard(id);
 
-    if (overlayText === overlayTextValues.ADD_TO_CART) {
+    if (currentText === overlayTextValues.ADD_TO_CART) {
       dispatch(addItemToCart({ id, imageUrl, name, price }));
     } else {
       navigate('/checkout');
@@ -55,8 +59,17 @@ function Shop() {
           value1: productsCopy[productCategory][i].name,
           value2: `$${productsCopy[productCategory][i].price}`,
         };
-        productsCopy[productCategory][i]['overlay'] = [overlayText];
-        productsCopy[productCategory][i]['onOverlayClick'] = onOverlayClickHandler;
+        if (productsCopy[productCategory][i].id !== activeCard) {
+          productsCopy[productCategory][i]['overlay'] = [
+            overlayTextValues.ADD_TO_CART,
+          ];
+        } else {
+          productsCopy[productCategory][i]['overlay'] = [
+            overlayTextValues.GO_TO_BAG,
+          ];
+        }
+        productsCopy[productCategory][i]['onOverlayClick'] =
+          onOverlayClickHandler;
         productsCopy[productCategory][i]['overlayPosition'] = 'bottom';
         productsCopy[productCategory][i]['showOverlayByDefault'] = false;
         productsCopy[productCategory][i]['disableImageTransition'] = true;
