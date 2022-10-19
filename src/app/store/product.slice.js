@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSelector, createSlice } from '@reduxjs/toolkit';
 
 const productSlice = createSlice({
   name: 'product',
@@ -8,12 +8,22 @@ const productSlice = createSlice({
   reducers: {
     setProducts: (state, action) => {
       state.products = action.payload;
-    }
+    },
   },
 });
 
 export const selectProducts = (state) => state.product?.products;
 
-export const { setProducts } =
-  productSlice.actions;
+// use selector if you are making expensive operations
+/*
+export const selectProducts = createSelector(
+  selectProductsForSelector,
+  (items) => {
+    console.log('product selector fired');
+    return items;
+  }
+);
+*/
+
+export const { setProducts } = productSlice.actions;
 export default productSlice.reducer;

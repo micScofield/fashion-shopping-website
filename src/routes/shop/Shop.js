@@ -1,15 +1,13 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 // import { ProductContext } from 'contexts/product.context';
 // import { CartContext } from 'contexts/cart.context';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectProducts, setProducts } from 'app/store/product.slice';
+import { selectProducts } from 'app/store/product.slice';
 import { addItemToCart } from 'app/store/cart.slice';
 import CardContainer from 'common/components/card-container/CardContainer';
-import { useGetProductsQuery } from 'app/store/api/product.api';
 import { overlayTextValues } from 'data/overlayTextValues';
-
 
 function Shop() {
   // const { products } = useContext(ProductContext);
@@ -17,19 +15,11 @@ function Shop() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const {
-    data: products,
-    isLoading,
-    isError,
-    isSuccess,
-  } = useGetProductsQuery();
-
-  products && dispatch(setProducts(products));
+  const products = useSelector(selectProducts);
 
   const [activeCard, setActiveCard] = useState(null);
 
-  let productsCopy =
-    !isLoading && isSuccess && products && JSON.parse(JSON.stringify(products));
+  let productsCopy = products && JSON.parse(JSON.stringify(products));
 
   const onOverlayClickHandler = (e, payload) => {
     // If user added to cart, check current text ie. add to cart and click handler should add the item otherwise redirect to bag/checkout
@@ -83,9 +73,7 @@ function Shop() {
 
   const onTitleClickHandler = (route) => navigate(`/shop/${route}`);
 
-  isError && alert('Something went wrong !!!');
-
-  return isLoading ? (
+  return !products ? (
     <div>Loading...</div>
   ) : (
     <div>

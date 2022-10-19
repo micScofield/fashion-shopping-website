@@ -10,6 +10,7 @@ export const productApi = createApi({
       async queryFn() {
         try {
           const products = await getCategoriesAndDocuments();
+          console.log(`API request made to fetch products: ${products}`)
           return { data: products };
         } catch (err) {
           console.error({ err });

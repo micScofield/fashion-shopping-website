@@ -13,6 +13,8 @@ import {
 } from 'common/utils/firebase/firebase.utils';
 import { setCurrentUser } from 'app/store/user.slice';
 import { useDispatch } from 'react-redux';
+import { useGetProductsQuery } from 'app/store/api/product.api';
+import { setProducts } from 'app/store/product.slice';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -30,6 +32,14 @@ const App = () => {
 
     return unsubscribe;
   }, []);
+
+  // fetching products here so that both Shop and Category screens can make use of it using redux
+
+  const {
+    data: products
+  } = useGetProductsQuery();
+
+  products && dispatch(setProducts(products));
 
   return (
     <Fragment>

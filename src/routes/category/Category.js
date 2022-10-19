@@ -14,7 +14,7 @@ function Category() {
 
   // identify product category from the URL
   const { category } = useParams();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [activeCard, setActiveCard] = useState(null);
 
   // const { products } = useContext(ProductContext);
@@ -72,7 +72,9 @@ function Category() {
       return acc;
     }, {});
 
-  return (
+  return !products ? (
+    <div>Loading...</div>
+  ) : (
     <div>
       {res &&
         Object.keys(res).length !== 0 &&
