@@ -18,7 +18,7 @@ function Form(props) {
     headerData,
     onSubmit,
     extFormData = {},
-    // buttonTypeClasses,
+    validButtons
   } = props;
 
   const [actionForm, setActionForm] = useState(formFields);
@@ -161,6 +161,7 @@ function Form(props) {
                       disabled={!isFormValid}
                       buttonType={buttonType}
                       secondaryButtonClass={secondaryButtonClass}
+                      validButtons={validButtons}
                     >
                       {text}
                     </Button>
@@ -185,4 +186,5 @@ Form.propTypes = {
   headerData: PropTypes.arrayOf(PropTypes.object),
   onSubmit: PropTypes.func,
   buttonTypeClasses: PropTypes.object,
+  validButtons: PropTypes.array
 };

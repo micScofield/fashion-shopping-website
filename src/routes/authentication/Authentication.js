@@ -1,5 +1,5 @@
 import './authentication.styles.scss';
-import { BUTTON_TYPE_CLASSES } from 'common/constants';
+import { BUTTON_TYPE_CLASSES, validButtons } from 'common/constants';
 import {
   signInAuthUserWithEmailAndPassword,
   createUserDocumentFromAuth,
@@ -92,6 +92,7 @@ const Authentication = () => {
         formFields={signInFormFields}
         buttons={signInFormButtons}
         buttonTypeClasses={BUTTON_TYPE_CLASSES}
+        validButtons={validButtons}
         headerData={signInFormHeaderData}
         onSubmit={onSignInSubmitHandler}
         // extFormData = {test}
