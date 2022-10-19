@@ -9,7 +9,8 @@ const Home = () => {
   const navigate = useNavigate()
 
   const onOverlayClickHandler = (e, payload) => {
-    navigate(`/shop${payload.urlRedirect}`)
+    const { cardData: { urlRedirect } } = payload
+    navigate(`/shop${urlRedirect}`)
   }
 
   for (let i = 0; i < categories?.length; i++) {

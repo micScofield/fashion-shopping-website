@@ -9,6 +9,7 @@ const Checkout = () => {
   const cartTotal = useSelector(selectCartTotal)
   const cartItems = useSelector(selectCartItems)
 
+  console.log(cartTotal, cartItems)
   return (
     <div className='checkout-container-wrapper'>
       <div className='checkout-container'>

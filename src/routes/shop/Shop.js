@@ -8,11 +8,8 @@ import { selectProducts, setProducts } from 'app/store/product.slice';
 import { addItemToCart } from 'app/store/cart.slice';
 import CardContainer from 'common/components/card-container/CardContainer';
 import { useGetProductsQuery } from 'app/store/api/product.api';
+import { overlayTextValues } from 'data/overlayTextValues';
 
-const overlayTextValues = {
-  ADD_TO_CART: 'Add to Cart',
-  GO_TO_BAG: 'Go to Bag &#x2192',
-};
 
 function Shop() {
   // const { products } = useContext(ProductContext);
@@ -29,18 +26,17 @@ function Shop() {
 
   products && dispatch(setProducts(products));
 
-  // const [overlayText, setOverlayText] = useState('Add to Cart')
   const [activeCard, setActiveCard] = useState(null);
 
   let productsCopy =
     !isLoading && isSuccess && products && JSON.parse(JSON.stringify(products));
 
   const onOverlayClickHandler = (e, payload) => {
+    // If user added to cart, check current text ie. add to cart and click handler should add the item otherwise redirect to bag/checkout
     const {
       cardData: { id, imageUrl, name, price },
       currentText,
     } = payload;
-    // id === activeCard && setOverlayText(overlayTextValues.GO_TO_BAG)
     setActiveCard(id);
 
     if (currentText === overlayTextValues.ADD_TO_CART) {

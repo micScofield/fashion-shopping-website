@@ -5,6 +5,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectProducts } from 'app/store/product.slice';
 import CardContainer from 'common/components/card-container/CardContainer';
 import { addItemToCart } from 'app/store/cart.slice';
+import { useState } from 'react';
+import { overlayTextValues } from 'data/overlayTextValues';
 
 function Category() {
   // const { products } = useContext(ProductContext);
@@ -13,14 +15,26 @@ function Category() {
   // identify product category from the URL
   const { category } = useParams();
 
+  const [activeCard, setActiveCard] = useState(null);
+
   // const { products } = useContext(ProductContext);
   const dispatch = useDispatch();
   const products = useSelector(selectProducts);
   let productsCopy = JSON.parse(JSON.stringify(products));
 
   const onOverlayClickHandler = (e, payload) => {
-    const { id, imageUrl, name, price } = payload;
-    dispatch(addItemToCart({ id, imageUrl, name, price }));
+    // If user added to cart, check current text ie. add to cart and click handler should add the item otherwise redirect to bag/checkout
+    const {
+      cardData: { id, imageUrl, name, price },
+      currentText,
+    } = payload;
+    setActiveCard(id);
+
+    if (currentText === overlayTextValues.ADD_TO_CART) {
+      dispatch(addItemToCart({ id, imageUrl, name, price }));
+    } else {
+      navigate('/checkout');
+    }
   };
 
   const formattedProducts =
@@ -32,7 +46,15 @@ function Category() {
           value1: productsCopy[productCategory][i].name,
           value2: `$${productsCopy[productCategory][i].price}`,
         };
-        productsCopy[productCategory][i]['overlay'] = ['Add to Cart'];
+        if (productsCopy[productCategory][i].id !== activeCard) {
+          productsCopy[productCategory][i]['overlay'] = [
+            overlayTextValues.ADD_TO_CART,
+          ];
+        } else {
+          productsCopy[productCategory][i]['overlay'] = [
+            overlayTextValues.GO_TO_BAG,
+          ];
+        }
         productsCopy[productCategory][i]['onOverlayClick'] =
           onOverlayClickHandler;
         productsCopy[productCategory][i]['overlayPosition'] = 'bottom';
