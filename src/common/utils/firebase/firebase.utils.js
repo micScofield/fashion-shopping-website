@@ -87,7 +87,7 @@ export const onAuthStateChangedListener = (callback) => {
   return onAuthStateChanged(auth, callback);
 };
 
-// DB
+// Ran once to store local data to the firestore DB
 export const addCollectionAndDocuments = async (
   collectionKey,
   objectsToAdd,

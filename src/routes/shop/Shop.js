@@ -1,4 +1,4 @@
-import { useContext, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 // import { ProductContext } from 'contexts/product.context';
 // import { CartContext } from 'contexts/cart.context';
@@ -6,30 +6,44 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectProducts, setProducts } from 'app/store/product.slice';
 import { addItemToCart } from 'app/store/cart.slice';
-import { getCategoriesAndDocuments } from 'common/utils/firebase/firebase.utils';
 import CardContainer from 'common/components/card-container/CardContainer';
+import { useGetProductsQuery } from 'app/store/api/product.api';
+import { overlayTextValues } from 'data/overlayTextValues';
+
 
 function Shop() {
   // const { products } = useContext(ProductContext);
   // const { addItemToCart } = useContext(CartContext);
-
-  const dispatch = useDispatch();
-  const products = useSelector(selectProducts);
-  let productsCopy = JSON.parse(JSON.stringify(products));
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  useEffect(() => {
-    const getCategories = async () => {
-      const response = await getCategoriesAndDocuments();
-      dispatch(setProducts(response));
-    };
+  const {
+    data: products,
+    isLoading,
+    isError,
+    isSuccess,
+  } = useGetProductsQuery();
 
-    getCategories();
-  }, []);
+  products && dispatch(setProducts(products));
+
+  const [activeCard, setActiveCard] = useState(null);
+
+  let productsCopy =
+    !isLoading && isSuccess && products && JSON.parse(JSON.stringify(products));
 
   const onOverlayClickHandler = (e, payload) => {
-    const { id, imageUrl, name, price } = payload;
-    dispatch(addItemToCart({ id, imageUrl, name, price }));
+    // If user added to cart, check current text ie. add to cart and click handler should add the item otherwise redirect to bag/checkout
+    const {
+      cardData: { id, imageUrl, name, price },
+      currentText,
+    } = payload;
+    setActiveCard(id);
+
+    if (currentText === overlayTextValues.ADD_TO_CART) {
+      dispatch(addItemToCart({ id, imageUrl, name, price }));
+    } else {
+      navigate('/checkout');
+    }
   };
 
   const formattedProducts =
@@ -41,8 +55,17 @@ function Shop() {
           value1: productsCopy[productCategory][i].name,
           value2: `$${productsCopy[productCategory][i].price}`,
         };
-        productsCopy[productCategory][i]['overlay'] = ['Add to Cart'];
-        productsCopy[productCategory][i]['onOverlayClick'] = onOverlayClickHandler;
+        if (productsCopy[productCategory][i].id !== activeCard) {
+          productsCopy[productCategory][i]['overlay'] = [
+            overlayTextValues.ADD_TO_CART,
+          ];
+        } else {
+          productsCopy[productCategory][i]['overlay'] = [
+            overlayTextValues.GO_TO_BAG,
+          ];
+        }
+        productsCopy[productCategory][i]['onOverlayClick'] =
+          onOverlayClickHandler;
         productsCopy[productCategory][i]['overlayPosition'] = 'bottom';
         productsCopy[productCategory][i]['showOverlayByDefault'] = false;
         productsCopy[productCategory][i]['disableImageTransition'] = true;
@@ -60,7 +83,11 @@ function Shop() {
 
   const onTitleClickHandler = (route) => navigate(`/shop/${route}`);
 
-  return (
+  isError && alert('Something went wrong !!!');
+
+  return isLoading ? (
+    <div>Loading...</div>
+  ) : (
     <div>
       {/* On the shop landing page, we want limited products to list, hence slicing the products array */}
       {res &&

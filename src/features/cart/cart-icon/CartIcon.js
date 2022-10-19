@@ -11,19 +11,8 @@ const CartIcon = () => {
   const dispatch = useDispatch()
   const isCartOpen = useSelector(selectIsCartOpen)
   const cartCount = useSelector(selectCartCount)
-  const cartItems = useSelector(selectCartItems)
-
-  // useEffect(() => {
-  //   const newCartCount = cartItems.reduce(
-  //     (total, cartItem) => total + cartItem.quantity,
-  //     0
-  //   );
-  //   dispatch(setCartCount(newCartCount));
-  // }, [cartItems]);
 
   const toggleIsCartOpen = () => dispatch(setIsCartOpen(!isCartOpen));
-
-  console.log(cartCount)
 
   return (
     <div className='cart-icon-container' onClick={toggleIsCartOpen}>

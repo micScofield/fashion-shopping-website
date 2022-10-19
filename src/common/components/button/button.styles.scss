@@ -13,6 +13,10 @@
         color: black;
         opacity: 1;
     }
+
+    &:disabled {
+        cursor: not-allowed;
+    }
 }
 
 .google-sign-in {

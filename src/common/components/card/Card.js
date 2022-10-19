@@ -11,15 +11,11 @@ const Card = ({ cardData, large }) => {
     imageUrl,
     footer,
     overlay,
-    overlayPosition,
     onOverlayClick,
-    showOverlayByDefault,
+    overlayPosition,
+    showOverlayByDefault, // for hover effect
     disableImageTransition,
   } = cardData;
-
-  if (!onOverlayClick) {
-    onOverlayClick = () => {};
-  }
 
   // Determining CSS classes for card wrapper
   let cardWrapperCssClasses = ['card-wrapper'];
@@ -39,11 +35,19 @@ const Card = ({ cardData, large }) => {
   if (overlay && overlay.length < 2) cardContainerCssClasses.push('small');
   if (overlayPosition === 'bottom') cardContainerCssClasses.push('bottom');
 
+  if (!onOverlayClick) {
+    onOverlayClick = () => {};
+  }
+
   return (
     <>
       <div className={cardWrapperCssClasses.join(' ')}>
         {imageUrl && (
-          <div className={`image-wrapper ${footer ? 'shortened-image-wrapper' : ''}`}>
+          <div
+            className={`image-wrapper ${
+              footer ? 'shortened-image-wrapper' : ''
+            }`}
+          >
             <div
               className={backgroundImageClasses.join(' ')}
               style={{
@@ -56,9 +60,9 @@ const Card = ({ cardData, large }) => {
         {overlay && (
           <div
             className={cardContainerCssClasses.join(' ')}
-            onClick={(e) => onOverlayClick(e, cardData)}
+            onClick={(e) => onOverlayClick(e, { cardData, currentText: overlay[0] })}
           >
-            {overlay[0] && <h2>{overlay[0].toUpperCase()}</h2>}
+            {overlay[0] && <h2 dangerouslySetInnerHTML={{__html: overlay[0]}} />}
             {overlay[1] && <p>{overlay[1]}</p>}
           </div>
         )}
@@ -81,9 +85,9 @@ Card.propTypes = {
       value1: PropTypes.string,
       value2: PropTypes.string,
     }),
-    overlay: PropTypes.arrayOf(PropTypes.string),
     overlayPosition: PropTypes.string,
     showOverlayByDefault: PropTypes.bool,
+    onOverlayClick: PropTypes.func,
   }),
   large: PropTypes.bool,
   disableImageTransition: PropTypes.bool,

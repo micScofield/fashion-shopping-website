@@ -7,23 +7,25 @@ import App from 'app/App';
 // import { UserProvider } from 'contexts/user.context';
 // import { ProductProvider } from 'contexts/product.context';
 // import { CartProvider } from 'contexts/cart.context';
-import { store } from 'app/store/store'
+import { store, persistor } from 'app/store/store';
 import 'index.scss';
-
+import { PersistGate } from 'redux-persist/integration/react';
 
 const root = createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <BrowserRouter>
-        {/* <UserProvider> */}
-          {/* <ProductProvider> */}
+      <PersistGate loading={<div>Loading state from local storage...</div>} persistor={persistor}>
+        <BrowserRouter>
+            {/* <UserProvider> */}
+            {/* <ProductProvider> */}
             {/* <CartProvider> */}
-              <App />
+            <App />
             {/* </CartProvider> */}
-          {/* </ProductProvider> */}
-        {/* </UserProvider> */}
-      </BrowserRouter>
+            {/* </ProductProvider> */}
+            {/* </UserProvider> */}
+        </BrowserRouter>
+      </PersistGate>
     </Provider>
   </React.StrictMode>
 );

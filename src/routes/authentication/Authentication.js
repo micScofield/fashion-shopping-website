@@ -18,11 +18,20 @@ import {
   signUpFormHeaderData,
 } from 'routes/authentication/formInfo/signUp';
 import Form from 'common/components/form/Form';
+import { useNavigate, use } from 'react-router-dom';
 
 const Authentication = () => {
+
+  const navigate = useNavigate()
+
   const signInWithGoogle = async () => {
-    const { user } = await signInWithGooglePopup();
-    await createUserDocumentFromAuth(user);
+    try {
+      const { user } = await signInWithGooglePopup();
+      await createUserDocumentFromAuth(user);
+      navigate(-1)
+    } catch(err) {
+      alert(err)
+    }
   };
 
   for (let i in signInFormButtons) {
@@ -39,8 +48,10 @@ const Authentication = () => {
     try {
       await signInAuthUserWithEmailAndPassword(email, password);
       resetFormFields();
+      navigate(-1)
     } catch (error) {
       console.log(error.code.split('/')[1]);
+      alert('Error signing in');
     }
   };
 
@@ -63,8 +74,10 @@ const Authentication = () => {
 
       await createUserDocumentFromAuth(user, { displayName });
       resetFormFields();
+      navigate(-1)
     } catch (error) {
       console.log(error.code.split('/')[1]);
+      alert('Error signing in');
     }
   };
 

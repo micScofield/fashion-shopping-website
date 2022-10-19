@@ -23,8 +23,8 @@ const App = () => {
         createUserDocumentFromAuth(user);
       }
       dispatch(setCurrentUser({
-        accessToken: user.accessToken,
-        id: user.id
+        accessToken: user ? user.accessToken : null,
+        id: user ? user.uid : null
       }));
     });
 
