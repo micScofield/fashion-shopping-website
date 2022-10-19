@@ -1,6 +1,6 @@
 // import { ProductContext } from 'contexts/product.context';
 // import { CartContext } from 'contexts/cart.context';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectProducts } from 'app/store/product.slice';
 import CardContainer from 'common/components/card-container/CardContainer';
@@ -14,7 +14,7 @@ function Category() {
 
   // identify product category from the URL
   const { category } = useParams();
-
+  const navigate = useNavigate()
   const [activeCard, setActiveCard] = useState(null);
 
   // const { products } = useContext(ProductContext);
