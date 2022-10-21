@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 // import { ProductContext } from 'contexts/product.context';
 // import { CartContext } from 'contexts/cart.context';
 import { addItemToCart } from 'app/store/slices/cart.slice';
@@ -23,7 +23,10 @@ function Category() {
 
   // fetching products here so that both Shop and Category screens can make use of it using redux
   const { data: products } = useGetProductsQuery();
-  products && dispatch(setProducts(products));
+
+  useEffect(() => {
+    if (products) dispatch(setProducts(products));
+  }); // dispatch of actions should be inside an useEffect to make sure we are not hempering react state update cycle
 
   let productsCopy = products && JSON.parse(JSON.stringify(products));
 
