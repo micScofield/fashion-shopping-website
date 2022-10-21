@@ -1,4 +1,4 @@
-const { productApi } = require("./api/product.api")
+const { productApi } = require("app/store/services/product.api")
 
 export const middlewares = (getDefaultMiddleware) =>
 getDefaultMiddleware({
@@ -7,4 +7,4 @@ getDefaultMiddleware({
     // ignoredActionPaths: ['meta.arg', 'payload.timestamp'], // Ignore these field paths in all actions
     // ignoredPaths: ['items.dates'], // Ignore these paths in the state
   },
-}).concat(productApi.middleware)
+}).concat([productApi.middleware])

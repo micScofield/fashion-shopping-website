@@ -2,15 +2,15 @@
 import { useNavigate } from 'react-router-dom';
 
 import Button from 'common/components/button/Button';
-import CartItem from 'features/cart/cart-item/CartItem.js';
 import 'features/cart/cart-dropdown/cart-dropdown.styles.scss';
+import CartItem from 'features/cart/cart-item/CartItem.js';
 // import { CartContext } from 'contexts/cart.context';
-import { useDispatch, useSelector } from 'react-redux';
 import {
   selectCartItems,
   selectIsCartOpen,
-  setIsCartOpen,
-} from 'app/store/cart.slice';
+  setIsCartOpen
+} from 'app/store/slices/cart.slice';
+import { useDispatch, useSelector } from 'react-redux';
 
 const CartDropdown = () => {
   // const { cartItems, setIsCartOpen, isCartOpen } = useContext(CartContext);

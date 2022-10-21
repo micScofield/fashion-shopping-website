@@ -83,10 +83,6 @@ export const signOutUser = async () => {
   await signOut(auth);
 };
 
-export const onAuthStateChangedListener = (callback) => {
-  return onAuthStateChanged(auth, callback);
-};
-
 // Ran once to store local data to the firestore DB
 export const addCollectionAndDocuments = async (
   collectionKey,
@@ -118,3 +114,24 @@ export const getCategoriesAndDocuments = async () => {
 
   return categoryMap;
 };
+
+// Observable pattern provided by firebase to check if auth state has changed or not and this listener used in the root of the app (App.js) which sets or removes the user info from redux store and thus auth state is determined
+export const onAuthStateChangedListener = (callback) => {
+  return onAuthStateChanged(auth, callback);
+};
+
+// An alternative to above pattern is to use below promise based syntax (Nothing wrong with above one though)
+/*
+export const getCurrentUser = () => {
+  return new Promise((resolve, reject) => {
+    const unsubscribe = onAuthStateChanged(
+      auth,
+      (userAuth) => {
+        unsubscribe(); // close listener ie. once we receive userAuth info, clean up the memory
+        resolve(userAuth);
+      },
+      reject // third argument is for errors
+    );
+  });
+};
+*/

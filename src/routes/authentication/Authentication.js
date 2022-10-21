@@ -18,13 +18,14 @@ import {
   signUpFormHeaderData,
 } from 'routes/authentication/formInfo/signUp';
 import Form from 'common/components/form/Form';
-import { useNavigate, use } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const Authentication = () => {
 
   const navigate = useNavigate()
 
   const signInWithGoogle = async () => {
+    // should be able to dispatch an action
     try {
       const { user } = await signInWithGooglePopup();
       await createUserDocumentFromAuth(user);

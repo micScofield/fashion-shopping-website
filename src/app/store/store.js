@@ -1,9 +1,10 @@
-import { applyMiddleware, configureStore, compose } from '@reduxjs/toolkit';
-import { persistStore, persistReducer } from 'redux-persist';
-import storage from 'redux-persist/lib/storage';
+import { configureStore } from '@reduxjs/toolkit';
 import { rootReducer } from 'app/store/root-reducer';
-import logger from 'redux-logger';
+import { persistReducer, persistStore } from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
+// import logger from 'redux-logger';
 import { middlewares } from 'app/store/middlewares';
+
 /*
 const customLoggerMiddleware = (store) => (next) => (action) => {
   if (!action.type) {

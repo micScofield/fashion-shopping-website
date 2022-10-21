@@ -1,13 +1,10 @@
-import { useEffect } from 'react';
 
 // import { CartContext } from 'contexts/cart.context';
 import {
-  clearItemFromCart,
-  addItemToCart,
-  removeItemFromCart,
-} from 'app/store/cart.slice';
-import 'routes/checkout/checkout-item.styles.scss';
+  addItemToCart, clearItemFromCart, removeItemFromCart
+} from 'app/store/slices/cart.slice';
 import { useDispatch } from 'react-redux';
+import 'routes/checkout/checkout-item.styles.scss';
 
 const CheckoutItem = ({ cartItem }) => {
   const { name, imageUrl, price, quantity } = cartItem;
