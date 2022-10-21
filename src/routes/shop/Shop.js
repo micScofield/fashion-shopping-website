@@ -3,11 +3,12 @@ import { useState } from 'react';
 // import { ProductContext } from 'contexts/product.context';
 // import { CartContext } from 'contexts/cart.context';
 import { addItemToCart } from 'app/store/slices/cart.slice';
-import { selectProducts } from 'app/store/slices/product.slice';
+import { selectProducts, setProducts } from 'app/store/slices/product.slice';
 import CardContainer from 'common/components/card-container/CardContainer';
 import { overlayTextValues } from 'data/overlayTextValues';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { useGetProductsQuery } from 'app/store/services/product.api';
 
 function Shop() {
   // const { products } = useContext(ProductContext);
@@ -15,7 +16,10 @@ function Shop() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const products = useSelector(selectProducts);
+  // fetching products here so that both Shop and Category screens can make use of it using redux
+  const { data: products } = useGetProductsQuery();
+
+  products && dispatch(setProducts(products));
 
   const [activeCard, setActiveCard] = useState(null);
 

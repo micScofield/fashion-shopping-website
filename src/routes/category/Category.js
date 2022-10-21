@@ -2,11 +2,12 @@ import { useState } from 'react';
 // import { ProductContext } from 'contexts/product.context';
 // import { CartContext } from 'contexts/cart.context';
 import { addItemToCart } from 'app/store/slices/cart.slice';
-import { selectProducts } from 'app/store/slices/product.slice';
+import { selectProducts, setProducts } from 'app/store/slices/product.slice';
 import CardContainer from 'common/components/card-container/CardContainer';
 import { overlayTextValues } from 'data/overlayTextValues';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
+import { useGetProductsQuery } from 'app/store/services/product.api';
 
 function Category() {
   // const { products } = useContext(ProductContext);
@@ -19,8 +20,12 @@ function Category() {
 
   // const { products } = useContext(ProductContext);
   const dispatch = useDispatch();
-  const products = useSelector(selectProducts);
-  let productsCopy = JSON.parse(JSON.stringify(products));
+
+  // fetching products here so that both Shop and Category screens can make use of it using redux
+  const { data: products } = useGetProductsQuery();
+  products && dispatch(setProducts(products));
+
+  let productsCopy = products && JSON.parse(JSON.stringify(products));
 
   const onOverlayClickHandler = (e, payload) => {
     // If user added to cart, check current text ie. add to cart and click handler should add the item otherwise redirect to bag/checkout

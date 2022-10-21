@@ -1,20 +1,20 @@
 import { Fragment, useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
 
-import { useGetProductsQuery } from 'app/store/services/product.api';
-import { setProducts } from 'app/store/slices/product.slice';
 import { setCurrentUser } from 'app/store/slices/user.slice';
 import {
   createUserDocumentFromAuth,
-  onAuthStateChangedListener
+  onAuthStateChangedListener,
 } from 'common/utils/firebase/firebase.utils';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Authentication from 'routes/authentication/Authentication';
 import Category from 'routes/category/Category';
 import Checkout from 'routes/checkout/Checkout';
 import Home from 'routes/home/Home';
 import Navigation from 'routes/navigation/Navigation';
 import Shop from 'routes/shop/Shop';
+import { selectProducts, setProducts } from './store/slices/product.slice';
+import { useGetProductsQuery } from './store/services/product.api';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -36,11 +36,13 @@ const App = () => {
     return unsubscribe;
   }, []);
 
+  // Commenting this out as I want to make separate API calls in both Shop and Category component. Currently, endpoints are same but ideally we should limit the data in one screen and show all in other
+  /*
   // fetching products here so that both Shop and Category screens can make use of it using redux
-
   const { data: products } = useGetProductsQuery();
 
   products && dispatch(setProducts(products));
+  */
 
   return (
     <Fragment>
