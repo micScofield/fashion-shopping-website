@@ -1,10 +1,8 @@
 import './authentication.styles.scss';
 import { BUTTON_TYPE_CLASSES, validButtons } from 'common/constants';
 import {
-  signInAuthUserWithEmailAndPassword,
   createUserDocumentFromAuth,
   createAuthUserWithEmailAndPassword,
-  signInWithGooglePopup,
 } from 'common/utils/firebase/firebase.utils';
 
 import {
@@ -19,19 +17,23 @@ import {
 } from 'routes/authentication/formInfo/signUp';
 import Form from 'common/components/form/Form';
 import { useNavigate } from 'react-router-dom';
+import {
+  useSignInWithEmailAndPasswordMutation,
+  useSignInWithGoogleMutation,
+} from 'app/store/services/user.api';
 
 const Authentication = () => {
+  const navigate = useNavigate();
 
-  const navigate = useNavigate()
+  const [signInWithGoogle] = useSignInWithGoogleMutation();
+  const [signInWithEmailAndPassword] = useSignInWithEmailAndPasswordMutation();
 
-  const signInWithGoogle = async () => {
-    // should be able to dispatch an action
+  const signInWithGoogleHandler = async () => {
     try {
-      const { user } = await signInWithGooglePopup();
-      await createUserDocumentFromAuth(user);
-      navigate(-1)
-    } catch(err) {
-      alert(err)
+      await signInWithGoogle();
+      navigate(-1);
+    } catch (err) {
+      console.log(err);
     }
   };
 
@@ -39,20 +41,22 @@ const Authentication = () => {
     if (
       signInFormButtons[i].secondaryButtonClass === BUTTON_TYPE_CLASSES.google
     ) {
-      signInFormButtons[i].onClick = signInWithGoogle;
+      signInFormButtons[i].onClick = signInWithGoogleHandler;
     }
   }
 
   const onSignInSubmitHandler = async (e, payload, resetFormFields) => {
     e.preventDefault();
+
     const { email, password } = payload;
+
     try {
-      await signInAuthUserWithEmailAndPassword(email, password);
+      await signInWithEmailAndPassword({ email, password });
+
       resetFormFields();
-      navigate(-1)
-    } catch (error) {
-      console.log(error.code.split('/')[1]);
-      alert('Error signing in');
+      navigate(-1);
+    } catch (err) {
+      console.log(err);
     }
   };
 
@@ -75,7 +79,7 @@ const Authentication = () => {
 
       await createUserDocumentFromAuth(user, { displayName });
       resetFormFields();
-      navigate(-1)
+      navigate(-1);
     } catch (error) {
       console.log(error.code.split('/')[1]);
       alert('Error signing in');

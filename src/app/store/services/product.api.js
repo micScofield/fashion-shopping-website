@@ -16,7 +16,7 @@ export const productApi = createApi({
           console.error({ err });
         }
       },
-      keepUnusedDataFor: 10 // 1 day
+      keepUnusedDataFor: 86400 // 1 day
       // invalidatesTags: [{type: 'Product'}]
     }),
   }),
