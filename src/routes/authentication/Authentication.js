@@ -1,5 +1,5 @@
-import './authentication.styles.scss';
-import { BUTTON_TYPE_CLASSES, validButtons } from 'common/constants';
+import 'routes/authentication/authentication.styles.scss';
+import { BUTTON_TYPE_CLASSES, SPINNER_SIZES, validButtons } from 'common/constants';
 import {
   createUserDocumentFromAuth,
   createAuthUserWithEmailAndPassword,
@@ -21,18 +21,24 @@ import {
   useSignInWithEmailAndPasswordMutation,
   useSignInWithGoogleMutation,
 } from 'app/store/services/user.api';
+import { useState } from 'react';
+import DarkSpinner from 'common/components/spinner/dark/DarkSpinner';
 
 const Authentication = () => {
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
 
   const [signInWithGoogle] = useSignInWithGoogleMutation();
   const [signInWithEmailAndPassword] = useSignInWithEmailAndPasswordMutation();
 
   const signInWithGoogleHandler = async () => {
+    setIsLoading(true);
     try {
       await signInWithGoogle();
+      setIsLoading(false);
       navigate(-1);
     } catch (err) {
+      setIsLoading(false);
       console.log(err);
     }
   };
@@ -47,16 +53,17 @@ const Authentication = () => {
 
   const onSignInSubmitHandler = async (e, payload, resetFormFields) => {
     e.preventDefault();
-
+    setIsLoading(true);
     const { email, password } = payload;
 
     try {
       await signInWithEmailAndPassword({ email, password });
-
       resetFormFields();
+      setIsLoading(false);
       navigate(-1);
     } catch (err) {
       console.log(err);
+      setIsLoading(false);
     }
   };
 
@@ -86,12 +93,9 @@ const Authentication = () => {
     }
   };
 
-  // let test = {
-  //   email: 'a@a.com',
-  //   password: '123456'
-  // }
-
-  return (
+  return isLoading ? (
+    <DarkSpinner size='s' />
+  ) : (
     <div className='authentication-container'>
       <Form
         formFields={signInFormFields}

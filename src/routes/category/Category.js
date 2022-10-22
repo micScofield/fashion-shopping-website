@@ -2,12 +2,13 @@ import { useState, useEffect } from 'react';
 // import { ProductContext } from 'contexts/product.context';
 // import { CartContext } from 'contexts/cart.context';
 import { addItemToCart } from 'app/store/slices/cart.slice';
-import { selectProducts, setProducts } from 'app/store/slices/product.slice';
+import { setProducts } from 'app/store/slices/product.slice';
 import CardContainer from 'common/components/card-container/CardContainer';
 import { overlayTextValues } from 'data/overlayTextValues';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useGetProductsQuery } from 'app/store/services/product.api';
+import DarkSpinner from 'common/components/spinner/dark/DarkSpinner';
 
 function Category() {
   // const { products } = useContext(ProductContext);
@@ -81,7 +82,7 @@ function Category() {
     }, {});
 
   return !products ? (
-    <div>Loading...</div>
+    <DarkSpinner />
   ) : (
     <div>
       {res &&

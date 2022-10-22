@@ -16,10 +16,17 @@ export const productApi = createApi({
           console.error({ err });
         }
       },
+      providesTags: ['Product'],
       keepUnusedDataFor: 86400 // 1 day
-      // invalidatesTags: [{type: 'Product'}]
     }),
   }),
 });
 
 export const { useGetProductsQuery } = productApi;
+
+/*
+Note on automated refetching-
+Tags: Slice identifier
+Provide tags: Used in query endpoints
+Invalidate tags: Used in mutation endpoints: EX. Whenever mutation endpoint is hit, all the query endpoints which mention this tag type make a refetch call automatically
+*/

@@ -9,6 +9,7 @@ import { overlayTextValues } from 'data/overlayTextValues';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useGetProductsQuery } from 'app/store/services/product.api';
+import DarkSpinner from 'common/components/spinner/dark/DarkSpinner';
 
 function Shop() {
   // const { products } = useContext(ProductContext);
@@ -80,7 +81,7 @@ function Shop() {
   const onTitleClickHandler = (route) => navigate(`/shop/${route}`);
 
   return !products ? (
-    <div>Loading...</div>
+    <DarkSpinner />
   ) : (
     <div>
       {/* On the shop landing page, we want limited products to list, hence slicing the products array */}
