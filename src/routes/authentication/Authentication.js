@@ -1,5 +1,9 @@
 import 'routes/authentication/authentication.styles.scss';
-import { BUTTON_TYPE_CLASSES, SPINNER_SIZES, validButtons } from 'common/constants';
+import {
+  BUTTON_TYPE_CLASSES,
+  SPINNER_SIZES,
+  validButtons,
+} from 'common/constants';
 import {
   createUserDocumentFromAuth,
   createAuthUserWithEmailAndPassword,
@@ -34,9 +38,14 @@ const Authentication = () => {
   const signInWithGoogleHandler = async () => {
     setIsLoading(true);
     try {
-      await signInWithGoogle();
+      const {data, error} = await signInWithGoogle();
       setIsLoading(false);
-      navigate(-1);
+
+      if (!error) {
+        navigate(-1);
+      } else {
+        console.log(error)
+      }
     } catch (err) {
       setIsLoading(false);
       console.log(err);
@@ -57,19 +66,26 @@ const Authentication = () => {
     const { email, password } = payload;
 
     try {
-      await signInWithEmailAndPassword({ email, password });
-      resetFormFields();
+      const { data, error } = await signInWithEmailAndPassword({ email, password });
       setIsLoading(false);
-      navigate(-1);
+
+      console.log({data, error})
+
+      if (!error) {
+        resetFormFields();
+        console.log('Navigating from try')
+        navigate(-1);
+      } else {
+        console.log({error})
+      }
     } catch (err) {
-      console.log(err);
       setIsLoading(false);
+      console.log({err})
     }
   };
 
   const onSignUpSubmitHandler = async (e, payload, resetFormFields) => {
     e.preventDefault();
-    console.log('onSignUpSubmitHandler', payload);
 
     const { email, password, displayName, confirmPassword } = payload;
 
@@ -77,7 +93,7 @@ const Authentication = () => {
       console.log("Passwords don't match");
       return;
     }
-
+    setIsLoading(true);
     try {
       const { user } = await createAuthUserWithEmailAndPassword(
         email,
@@ -85,16 +101,18 @@ const Authentication = () => {
       );
 
       await createUserDocumentFromAuth(user, { displayName });
+      setIsLoading(false);
       resetFormFields();
       navigate(-1);
     } catch (error) {
+      setIsLoading(false);
       console.log(error.code.split('/')[1]);
-      alert('Error signing in');
+      // alert('Error signing in: ', error.code?.split('/')[1]);
     }
   };
 
   return isLoading ? (
-    <DarkSpinner size='s' />
+    <DarkSpinner />
   ) : (
     <div className='authentication-container'>
       <Form

@@ -4,7 +4,6 @@ import 'common/components/spinner/dark/dark-spinner.styles.scss'
 import { SPINNER_SIZES } from 'common/constants'
 
 function DarkSpinner({size}) {
-  console.log(size)
   const spinnerCssClasses = ['loader']
   switch (size) {
     case SPINNER_SIZES.EXTRA_SMALL: spinnerCssClasses.push('xs')

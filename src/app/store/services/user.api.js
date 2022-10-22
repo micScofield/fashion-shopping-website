@@ -12,23 +12,15 @@ export const userApi = createApi({
   endpoints: (builder) => ({
     signInWithGoogle: builder.mutation({
       async queryFn() {
-        try {
-          console.log('signInWithGoogle: Making firebase utility calls');
-          const { user } = await signInWithGooglePopup();
-          await createUserDocumentFromAuth(user);
-        } catch (err) {
-          console.log(err);
-        }
+        console.log('signInWithGoogle: Making firebase utility calls');
+        const { user } = await signInWithGooglePopup();
+        return await createUserDocumentFromAuth(user);
       },
     }),
     signInWithEmailAndPassword: builder.mutation({
       async queryFn({ email, password }) {
-        try {
-          console.log('signInWithEmailAndPassword: Making firebase utility calls');
-          await signInAuthUserWithEmailAndPassword(email, password);
-        } catch (err) {
-          console.log(err);
-        }
+        console.log('signInWithEmailAndPassword: Making firebase utility calls');
+        return await signInAuthUserWithEmailAndPassword(email, password);
       },
     }),
   }),
