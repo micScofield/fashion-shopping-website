@@ -23,8 +23,6 @@ function Button(props) {
   if (isLoading) buttonCssClasses.push('buttonLoading');
   if (secondaryButtonClass) buttonCssClasses.push(`${secondaryButtonClass}`);
 
-  console.log(isLoading)
-
   // determining if button needs to be disabled
   let flag = disabled;
   if (validButtons?.includes(secondaryButtonClass)) flag = false;

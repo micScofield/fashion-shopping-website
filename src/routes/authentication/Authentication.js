@@ -4,10 +4,6 @@ import {
   signInButtonTexts,
   validButtons,
 } from 'common/constants';
-import {
-  createUserDocumentFromAuth,
-  createAuthUserWithEmailAndPassword,
-} from 'common/utils/firebase/firebase.utils';
 
 import {
   signInFormButtons,
@@ -24,11 +20,13 @@ import { useNavigate } from 'react-router-dom';
 import {
   useSignInWithEmailAndPasswordMutation,
   useSignInWithGoogleMutation,
+  useSignUpWithEmailAndPasswordMutation,
 } from 'app/store/services/user.api';
 import { useState } from 'react';
 
 const Authentication = () => {
   const navigate = useNavigate();
+
   const [signInButtonLoader, setSignInButtonLoader] = useState(false);
   const [signInWithGoogleButtonLoader, setSignInWithGoogleButtonLoader] =
     useState(false);
@@ -36,7 +34,9 @@ const Authentication = () => {
 
   const [signInWithGoogle] = useSignInWithGoogleMutation();
   const [signInWithEmailAndPassword] = useSignInWithEmailAndPasswordMutation();
+  const [signUpWithEmailAndPassword] = useSignUpWithEmailAndPasswordMutation();
 
+  // sign in with google handler
   const signInWithGoogleHandler = async () => {
     setSignInWithGoogleButtonLoader(true);
     try {
@@ -73,6 +73,7 @@ const Authentication = () => {
     }
   }
 
+  // sign in with email handler
   const onSignInSubmitHandler = async (e, payload, resetFormFields) => {
     e.preventDefault();
     setSignInButtonLoader(true);
@@ -84,6 +85,7 @@ const Authentication = () => {
         password,
       });
 
+      setSignInButtonLoader(false);
       if (!error) {
         resetFormFields();
         navigate(-1);
@@ -91,34 +93,45 @@ const Authentication = () => {
         console.log({ error });
       }
     } catch (err) {
+      setSignInButtonLoader(false);
       console.log({ err });
     }
   };
 
+  // sign up handler
   const onSignUpSubmitHandler = async (e, payload, resetFormFields) => {
     e.preventDefault();
 
-    const { email, password, displayName, confirmPassword } = payload;
+    const { signUpEmail, signUpPassword, signUpDisplayName, signUpConfirmPassword } = payload;
 
-    if (password !== confirmPassword) {
+    if (signUpPassword !== signUpConfirmPassword) {
       console.log("Passwords don't match");
+      // alert
       return;
     }
 
     setSignUpButtonLoader(true);
 
-    try {
-      const { user } = await createAuthUserWithEmailAndPassword(
-        email,
-        password
-      );
+    console.log({signUpEmail, signUpPassword, signUpDisplayName, signUpConfirmPassword})
 
-      await createUserDocumentFromAuth(user, { displayName });
+    try {
+      const { data, error } = await signUpWithEmailAndPassword({
+        email: signUpEmail,
+        password: signUpPassword,
+        displayName: signUpDisplayName,
+      });
+
       setSignUpButtonLoader(false);
-      resetFormFields();
-      navigate(-1);
+
+      if (!error) {
+        resetFormFields();
+        navigate(-1);
+      } else {
+        console.log({ error });
+      }
     } catch (error) {
       setSignUpButtonLoader(false);
+
       console.log(error.code.split('/')[1]);
     }
   };
@@ -132,7 +145,7 @@ const Authentication = () => {
         validButtons={validButtons}
         headerData={signInFormHeaderData}
         onSubmit={onSignInSubmitHandler}
-        // extFormData = {test}
+        // extFormData = {{...formData}}
       />
 
       <Form
@@ -141,7 +154,7 @@ const Authentication = () => {
         buttonTypeClasses={BUTTON_TYPE_CLASSES}
         headerData={signUpFormHeaderData}
         onSubmit={onSignUpSubmitHandler}
-        // extFormData = {test}
+        // extFormData = {{...formData}}
       />
     </div>
   );

@@ -1,5 +1,6 @@
 import { createApi, fakeBaseQuery } from '@reduxjs/toolkit/query/react';
 import {
+  createAuthUserWithEmailAndPassword,
   createUserDocumentFromAuth,
   signInAuthUserWithEmailAndPassword,
   signInWithGooglePopup,
@@ -19,11 +20,30 @@ export const userApi = createApi({
     }),
     signInWithEmailAndPassword: builder.mutation({
       async queryFn({ email, password }) {
-        console.log('signInWithEmailAndPassword: Making firebase utility calls');
+        console.log(
+          'signInWithEmailAndPassword: Making firebase utility calls'
+        );
         return await signInAuthUserWithEmailAndPassword(email, password);
+      },
+    }),
+    signUpWithEmailAndPassword: builder.mutation({
+      async queryFn({ email, password, displayName }) {
+        console.log(
+          'signUpWithEmailAndPassword: Making firebase utility calls', email, password, displayName
+        );
+        const { user } = await createAuthUserWithEmailAndPassword(
+          email,
+          password
+        );
+
+        return await createUserDocumentFromAuth(user, { displayName });
       },
     }),
   }),
 });
 
-export const { useSignInWithGoogleMutation, useSignInWithEmailAndPasswordMutation } = userApi;
+export const {
+  useSignInWithGoogleMutation,
+  useSignInWithEmailAndPasswordMutation,
+  useSignUpWithEmailAndPasswordMutation,
+} = userApi;

@@ -172,8 +172,6 @@ function Form(props) {
 
 export default Form;
 
-// const { formFields, buttons, headerData, onSubmit, extFormData = {}, buttonTypeClasses } = props;
-
 Form.propTypes = {
   formFields: PropTypes.objectOf(PropTypes.object),
   buttons: PropTypes.arrayOf(PropTypes.object),
