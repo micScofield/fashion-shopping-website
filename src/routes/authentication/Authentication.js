@@ -1,7 +1,7 @@
 import 'routes/authentication/authentication.styles.scss';
 import {
   BUTTON_TYPE_CLASSES,
-  SPINNER_SIZES,
+  signInButtonTexts,
   validButtons,
 } from 'common/constants';
 import {
@@ -26,61 +26,72 @@ import {
   useSignInWithGoogleMutation,
 } from 'app/store/services/user.api';
 import { useState } from 'react';
-import DarkSpinner from 'common/components/spinner/dark/DarkSpinner';
 
 const Authentication = () => {
   const navigate = useNavigate();
-  const [isLoading, setIsLoading] = useState(false);
+  const [signInButtonLoader, setSignInButtonLoader] = useState(false);
+  const [signInWithGoogleButtonLoader, setSignInWithGoogleButtonLoader] =
+    useState(false);
+  const [signUpButtonLoader, setSignUpButtonLoader] = useState(false);
 
   const [signInWithGoogle] = useSignInWithGoogleMutation();
   const [signInWithEmailAndPassword] = useSignInWithEmailAndPasswordMutation();
 
   const signInWithGoogleHandler = async () => {
-    setIsLoading(true);
+    setSignInWithGoogleButtonLoader(true);
     try {
-      const {data, error} = await signInWithGoogle();
-      setIsLoading(false);
-
+      const { data, error } = await signInWithGoogle();
+      setSignInWithGoogleButtonLoader(false);
       if (!error) {
         navigate(-1);
       } else {
-        console.log(error)
+        console.log(error);
       }
     } catch (err) {
-      setIsLoading(false);
+      setSignInWithGoogleButtonLoader(false);
       console.log(err);
     }
   };
 
+  // setting additional props/info on sign in form buttons
   for (let i in signInFormButtons) {
+    if (signInFormButtons[i].text === signInButtonTexts.SIGN_IN) {
+      signInFormButtons[i].isLoading = signInButtonLoader;
+    }
     if (
       signInFormButtons[i].secondaryButtonClass === BUTTON_TYPE_CLASSES.google
     ) {
       signInFormButtons[i].onClick = signInWithGoogleHandler;
+      signInFormButtons[i].isLoading = signInWithGoogleButtonLoader;
+    }
+  }
+
+  // setting additional props/info on sign up form buttons
+  for (let i in signUpFormButtons) {
+    if (signUpFormButtons[i].text === signInButtonTexts.SIGN_UP) {
+      signUpFormButtons[i].isLoading = signUpButtonLoader;
     }
   }
 
   const onSignInSubmitHandler = async (e, payload, resetFormFields) => {
     e.preventDefault();
-    setIsLoading(true);
+    setSignInButtonLoader(true);
     const { email, password } = payload;
 
     try {
-      const { data, error } = await signInWithEmailAndPassword({ email, password });
-      setIsLoading(false);
-
-      console.log({data, error})
+      const { data, error } = await signInWithEmailAndPassword({
+        email,
+        password,
+      });
 
       if (!error) {
         resetFormFields();
-        console.log('Navigating from try')
         navigate(-1);
       } else {
-        console.log({error})
+        console.log({ error });
       }
     } catch (err) {
-      setIsLoading(false);
-      console.log({err})
+      console.log({ err });
     }
   };
 
@@ -93,7 +104,9 @@ const Authentication = () => {
       console.log("Passwords don't match");
       return;
     }
-    setIsLoading(true);
+
+    setSignUpButtonLoader(true);
+
     try {
       const { user } = await createAuthUserWithEmailAndPassword(
         email,
@@ -101,19 +114,16 @@ const Authentication = () => {
       );
 
       await createUserDocumentFromAuth(user, { displayName });
-      setIsLoading(false);
+      setSignUpButtonLoader(false);
       resetFormFields();
       navigate(-1);
     } catch (error) {
-      setIsLoading(false);
+      setSignUpButtonLoader(false);
       console.log(error.code.split('/')[1]);
-      // alert('Error signing in: ', error.code?.split('/')[1]);
     }
   };
 
-  return isLoading ? (
-    <DarkSpinner />
-  ) : (
+  return (
     <div className='authentication-container'>
       <Form
         formFields={signInFormFields}

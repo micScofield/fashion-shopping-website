@@ -10,3 +10,9 @@ export const SPINNER_SIZES = {
   SMALL: 's',
   MEDIUM: 'm',
 }
+
+export const signInButtonTexts = {
+  SIGN_IN: 'Sign In',
+  SIGN_IN_WITH_GOOGLE: 'Sign In With Google',
+  SIGN_UP: 'Sign Up'
+}

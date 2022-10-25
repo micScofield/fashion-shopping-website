@@ -11,6 +11,7 @@ import Authentication from 'routes/authentication/Authentication';
 import Category from 'routes/category/Category';
 import Checkout from 'routes/checkout/Checkout';
 import Home from 'routes/home/Home';
+import Test from 'routes/test/Test';
 import Navigation from 'routes/navigation/Navigation';
 import Shop from 'routes/shop/Shop';
 import { selectProducts, setProducts } from './store/slices/product.slice';
@@ -52,6 +53,7 @@ const App = () => {
         <Route path='/shop' element={<Shop />} />
         <Route path='/shop/:category' element={<Category />} />
         <Route path='/checkout' element={<Checkout />} />
+        <Route path='/test' element={<Test />} />
         <Route path='/' element={<Home />} />
       </Routes>
     </Fragment>
