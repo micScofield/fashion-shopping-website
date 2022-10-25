@@ -18,7 +18,7 @@ function Form(props) {
     headerData,
     onSubmit,
     extFormData = {},
-    // buttonTypeClasses,
+    validButtons,
   } = props;
 
   const [actionForm, setActionForm] = useState(formFields);
@@ -31,7 +31,7 @@ function Form(props) {
       for (let i in extFormData) {
         extFormFields[i].value = extFormData[i];
       }
-      console.log('shouldn\'t be here if not passing the form data explicitly')
+      console.log("shouldn't be here if not passing the form data explicitly");
       setActionForm(extFormFields);
     }
   }, [extFormData, actionForm]);
@@ -60,13 +60,13 @@ function Form(props) {
   };
 
   const resetFormFields = () => {
-    let resetForm = JSON.parse(JSON.stringify(actionForm))
+    let resetForm = JSON.parse(JSON.stringify(actionForm));
     for (let i in resetForm) {
-      resetForm[i].value = ''
+      resetForm[i].value = '';
     }
 
-    setActionForm(resetForm)
-  }
+    setActionForm(resetForm);
+  };
 
   // we receive form as an object, converting it to an array =
   let formArray = [];
@@ -80,14 +80,14 @@ function Form(props) {
 
   // customising on submit handler from the one we receive as prop
   const onSubmitHandler = (e, resetFormFields) => {
-    let payload = {}
+    let payload = {};
     for (let i in actionForm) {
-      payload[i] = actionForm[i].value
+      payload[i] = actionForm[i].value;
     }
 
     // call the handler provided to this form as prop
-    onSubmit(e, payload, resetFormFields)
-  }
+    onSubmit(e, payload, resetFormFields);
+  };
 
   return (
     <div className='form-container'>
@@ -116,7 +116,7 @@ function Form(props) {
           }
         })}
       {formArray && (
-        <form onSubmit={e => onSubmitHandler(e, resetFormFields)}>
+        <form onSubmit={(e) => onSubmitHandler(e, resetFormFields)}>
           {formArray.map((field) => {
             const {
               id,
@@ -128,7 +128,7 @@ function Form(props) {
                 placeholder,
                 validation,
                 htmlType,
-                label
+                label,
               },
             } = field;
             return (
@@ -150,20 +150,15 @@ function Form(props) {
           })}
 
           {buttons && (
-            <div className='buttons'>
+            <div className='buttons-container'>
               {buttons.map((button) => {
-                const { type, text, onClick, buttonType, secondaryButtonClass } = button;
                 return (
-                  <Fragment key={text}>
+                  <Fragment key={button.text}>
                     <Button
-                      type={type}
-                      onClick={onClick}
+                      {...button}
                       disabled={!isFormValid}
-                      buttonType={buttonType}
-                      secondaryButtonClass={secondaryButtonClass}
-                    >
-                      {text}
-                    </Button>
+                      validButtons={validButtons}
+                    />
                   </Fragment>
                 );
               })}
@@ -177,12 +172,11 @@ function Form(props) {
 
 export default Form;
 
-// const { formFields, buttons, headerData, onSubmit, extFormData = {}, buttonTypeClasses } = props;
-
 Form.propTypes = {
   formFields: PropTypes.objectOf(PropTypes.object),
   buttons: PropTypes.arrayOf(PropTypes.object),
   headerData: PropTypes.arrayOf(PropTypes.object),
   onSubmit: PropTypes.func,
   buttonTypeClasses: PropTypes.object,
+  validButtons: PropTypes.array,
 };

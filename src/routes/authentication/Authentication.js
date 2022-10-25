@@ -1,11 +1,9 @@
-import './authentication.styles.scss';
-import { BUTTON_TYPE_CLASSES } from 'common/constants';
+import 'routes/authentication/authentication.styles.scss';
 import {
-  signInAuthUserWithEmailAndPassword,
-  createUserDocumentFromAuth,
-  createAuthUserWithEmailAndPassword,
-  signInWithGooglePopup,
-} from 'common/utils/firebase/firebase.utils';
+  BUTTON_TYPE_CLASSES,
+  signInButtonTexts,
+  validButtons,
+} from 'common/constants';
 
 import {
   signInFormButtons,
@@ -18,73 +16,125 @@ import {
   signUpFormHeaderData,
 } from 'routes/authentication/formInfo/signUp';
 import Form from 'common/components/form/Form';
-import { useNavigate, use } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import {
+  useSignInWithEmailAndPasswordMutation,
+  useSignInWithGoogleMutation,
+  useSignUpWithEmailAndPasswordMutation,
+} from 'app/store/services/user.api';
+import { useState } from 'react';
 
 const Authentication = () => {
+  const navigate = useNavigate();
 
-  const navigate = useNavigate()
+  const [signInButtonLoader, setSignInButtonLoader] = useState(false);
+  const [signInWithGoogleButtonLoader, setSignInWithGoogleButtonLoader] =
+    useState(false);
+  const [signUpButtonLoader, setSignUpButtonLoader] = useState(false);
 
-  const signInWithGoogle = async () => {
+  const [signInWithGoogle] = useSignInWithGoogleMutation();
+  const [signInWithEmailAndPassword] = useSignInWithEmailAndPasswordMutation();
+  const [signUpWithEmailAndPassword] = useSignUpWithEmailAndPasswordMutation();
+
+  // sign in with google handler
+  const signInWithGoogleHandler = async () => {
+    setSignInWithGoogleButtonLoader(true);
     try {
-      const { user } = await signInWithGooglePopup();
-      await createUserDocumentFromAuth(user);
-      navigate(-1)
-    } catch(err) {
-      alert(err)
+      const { data, error } = await signInWithGoogle();
+      setSignInWithGoogleButtonLoader(false);
+      if (!error) {
+        navigate(-1);
+      } else {
+        console.log(error);
+      }
+    } catch (err) {
+      setSignInWithGoogleButtonLoader(false);
+      console.log(err);
     }
   };
 
+  // setting additional props/info on sign in form buttons
   for (let i in signInFormButtons) {
+    if (signInFormButtons[i].text === signInButtonTexts.SIGN_IN) {
+      signInFormButtons[i].isLoading = signInButtonLoader;
+    }
     if (
       signInFormButtons[i].secondaryButtonClass === BUTTON_TYPE_CLASSES.google
     ) {
-      signInFormButtons[i].onClick = signInWithGoogle;
+      signInFormButtons[i].onClick = signInWithGoogleHandler;
+      signInFormButtons[i].isLoading = signInWithGoogleButtonLoader;
     }
   }
 
+  // setting additional props/info on sign up form buttons
+  for (let i in signUpFormButtons) {
+    if (signUpFormButtons[i].text === signInButtonTexts.SIGN_UP) {
+      signUpFormButtons[i].isLoading = signUpButtonLoader;
+    }
+  }
+
+  // sign in with email handler
   const onSignInSubmitHandler = async (e, payload, resetFormFields) => {
     e.preventDefault();
+    setSignInButtonLoader(true);
     const { email, password } = payload;
+
     try {
-      await signInAuthUserWithEmailAndPassword(email, password);
-      resetFormFields();
-      navigate(-1)
-    } catch (error) {
-      console.log(error.code.split('/')[1]);
-      alert('Error signing in');
+      const { data, error } = await signInWithEmailAndPassword({
+        email,
+        password,
+      });
+
+      setSignInButtonLoader(false);
+      if (!error) {
+        resetFormFields();
+        navigate(-1);
+      } else {
+        console.log({ error });
+      }
+    } catch (err) {
+      setSignInButtonLoader(false);
+      console.log({ err });
     }
   };
 
+  // sign up handler
   const onSignUpSubmitHandler = async (e, payload, resetFormFields) => {
     e.preventDefault();
-    console.log('onSignUpSubmitHandler', payload);
 
-    const { email, password, displayName, confirmPassword } = payload;
+    const { signUpEmail, signUpPassword, signUpDisplayName, signUpConfirmPassword } = payload;
 
-    if (password !== confirmPassword) {
+    if (signUpPassword !== signUpConfirmPassword) {
       console.log("Passwords don't match");
+      // alert
       return;
     }
 
-    try {
-      const { user } = await createAuthUserWithEmailAndPassword(
-        email,
-        password
-      );
+    setSignUpButtonLoader(true);
 
-      await createUserDocumentFromAuth(user, { displayName });
-      resetFormFields();
-      navigate(-1)
+    console.log({signUpEmail, signUpPassword, signUpDisplayName, signUpConfirmPassword})
+
+    try {
+      const { data, error } = await signUpWithEmailAndPassword({
+        email: signUpEmail,
+        password: signUpPassword,
+        displayName: signUpDisplayName,
+      });
+
+      setSignUpButtonLoader(false);
+
+      if (!error) {
+        resetFormFields();
+        navigate(-1);
+      } else {
+        console.log({ error });
+      }
     } catch (error) {
+      setSignUpButtonLoader(false);
+
       console.log(error.code.split('/')[1]);
-      alert('Error signing in');
     }
   };
-
-  // let test = {
-  //   email: 'a@a.com',
-  //   password: '123456'
-  // }
 
   return (
     <div className='authentication-container'>
@@ -92,9 +142,10 @@ const Authentication = () => {
         formFields={signInFormFields}
         buttons={signInFormButtons}
         buttonTypeClasses={BUTTON_TYPE_CLASSES}
+        validButtons={validButtons}
         headerData={signInFormHeaderData}
         onSubmit={onSignInSubmitHandler}
-        // extFormData = {test}
+        // extFormData = {{...formData}}
       />
 
       <Form
@@ -103,7 +154,7 @@ const Authentication = () => {
         buttonTypeClasses={BUTTON_TYPE_CLASSES}
         headerData={signUpFormHeaderData}
         onSubmit={onSignUpSubmitHandler}
-        // extFormData = {test}
+        // extFormData = {{...formData}}
       />
     </div>
   );

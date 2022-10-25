@@ -1,9 +1,8 @@
-import { useEffect } from 'react';
 
 import { ReactComponent as ShoppingIcon } from 'assets/shopping-bag.svg';
 // import { CartContext } from 'contexts/cart.context';
+import { selectCartCount, selectIsCartOpen, setIsCartOpen } from 'app/store/slices/cart.slice';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectCartCount, selectCartItems, selectIsCartOpen, setCartCount, setIsCartOpen } from 'app/store/cart.slice';
 
 const CartIcon = () => {
   // const { isCartOpen, setIsCartOpen, cartCount } = useContext(CartContext);

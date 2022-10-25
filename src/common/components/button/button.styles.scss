@@ -1,31 +1,64 @@
 .button {
-    padding: 1rem 3rem;
-    border: 1px solid black;
-    background-color: black;
-    color: white;
-    justify-content: start;
-    cursor: pointer;
-    margin: 0 1rem;
-    opacity: 0.9;
+  padding: 1rem 3rem;
+  margin: 0 1rem;
+  border: 1px solid black;
+  background-color: black;
+  color: white;
+  cursor: pointer;
+  opacity: 0.9;
+  position: relative;
 
-    &:hover {
-        background-color: white;
-        color: black;
-        opacity: 1;
-    }
+  &:hover {
+    background-color: white;
+    color: black;
+    opacity: 1;
+  }
 
-    &:disabled {
-        cursor: not-allowed;
-    }
+  &:disabled {
+    cursor: not-allowed;
+  }
 }
 
 .google-sign-in {
-    background-color: #4285f4;
-    color: white;
+  background-color: #4285f4;
+  color: white;
 
-    &:hover {
-        background-color: #357ae8;
-        color: white;
-        border: none;
+  &:hover {
+    background-color: #357ae8;
+    color: white;
+    border: none;
+  }
+}
+
+.buttonLoading {
+  &::after {
+    content: '';
+    position: absolute;
+    width: 1.3rem;
+    height: 1.3rem;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    border: 4px solid transparent;
+    border-top-color: #ffffff;
+    mix-blend-mode: difference;
+    border-radius: 50%;
+    animation: button-loading-spinner 1s ease infinite;
+  }
+
+  & .button-text {
+    visibility: hidden;
+  }
+}
+
+@keyframes button-loading-spinner {
+  from {
+    transform: rotate(0turn);
+  }
+
+  to {
+    transform: rotate(1turn);
   }
 }

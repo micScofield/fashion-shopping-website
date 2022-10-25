@@ -17,14 +17,14 @@ export let signUpFormButtons = [
 ];
 
 export let signUpFormFields = {
-  displayName: {
+  signUpDisplayName: {
     type: 'text',
     htmlType: 'input',
     placeholder: 'Display Name',
     value: '',
     label: 'Display Name',
   },
-  email: {
+  signUpEmail: {
     type: 'email',
     htmlType: 'input',
     placeholder: 'Email',
@@ -37,7 +37,7 @@ export let signUpFormFields = {
     valid: false,
     touched: false,
   },
-  password: {
+  signUpPassword: {
     type: 'password',
     htmlType: 'input',
     placeholder: 'Password',
@@ -50,7 +50,7 @@ export let signUpFormFields = {
     valid: false,
     touched: false,
   },
-  confirmPassword: {
+  signUpConfirmPassword: {
     type: 'password',
     htmlType: 'input',
     placeholder: 'Confirm Password',

@@ -1,12 +1,14 @@
+import { useState, useEffect } from 'react';
 // import { ProductContext } from 'contexts/product.context';
 // import { CartContext } from 'contexts/cart.context';
-import { useNavigate, useParams } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { selectProducts } from 'app/store/product.slice';
+import { addItemToCart } from 'app/store/slices/cart.slice';
+import { setProducts } from 'app/store/slices/product.slice';
 import CardContainer from 'common/components/card-container/CardContainer';
-import { addItemToCart } from 'app/store/cart.slice';
-import { useState } from 'react';
 import { overlayTextValues } from 'data/overlayTextValues';
+import { useDispatch } from 'react-redux';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useGetProductsQuery } from 'app/store/services/product.api';
+import DarkSpinner from 'common/components/spinner/dark/DarkSpinner';
 
 function Category() {
   // const { products } = useContext(ProductContext);
@@ -14,13 +16,20 @@ function Category() {
 
   // identify product category from the URL
   const { category } = useParams();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [activeCard, setActiveCard] = useState(null);
 
   // const { products } = useContext(ProductContext);
   const dispatch = useDispatch();
-  const products = useSelector(selectProducts);
-  let productsCopy = JSON.parse(JSON.stringify(products));
+
+  // fetching products here so that both Shop and Category screens can make use of it using redux
+  const { data: products } = useGetProductsQuery();
+
+  useEffect(() => {
+    if (products) dispatch(setProducts(products));
+  }); // dispatch of actions should be inside an useEffect to make sure we are not hempering react state update cycle
+
+  let productsCopy = products && JSON.parse(JSON.stringify(products));
 
   const onOverlayClickHandler = (e, payload) => {
     // If user added to cart, check current text ie. add to cart and click handler should add the item otherwise redirect to bag/checkout
@@ -72,7 +81,9 @@ function Category() {
       return acc;
     }, {});
 
-  return (
+  return !products ? (
+    <DarkSpinner />
+  ) : (
     <div>
       {res &&
         Object.keys(res).length !== 0 &&

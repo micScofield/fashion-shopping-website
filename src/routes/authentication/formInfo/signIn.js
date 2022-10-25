@@ -1,4 +1,4 @@
-import { BUTTON_TYPE_CLASSES } from 'common/constants';
+import { BUTTON_TYPE_CLASSES, signInButtonTexts } from 'common/constants';
 export let signInFormHeaderData = [
   {
     type: 'h2',
@@ -42,11 +42,11 @@ export let signInFormFields = {
 export let signInFormButtons = [
   {
     type: 'submit',
-    text: 'Sign In',
+    text: signInButtonTexts.SIGN_IN,
   },
   {
     type: 'button',
-    text: 'Sign In With Google',
+    text: signInButtonTexts.SIGN_IN_WITH_GOOGLE,
     secondaryButtonClass: BUTTON_TYPE_CLASSES.google,
     onClick: (e) => {e.preventDefault()}, // to be set inside Authentication route component
   },

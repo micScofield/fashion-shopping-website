@@ -2,14 +2,14 @@ import { useEffect, useState } from 'react';
 
 // import { ProductContext } from 'contexts/product.context';
 // import { CartContext } from 'contexts/cart.context';
-import { useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { selectProducts, setProducts } from 'app/store/product.slice';
-import { addItemToCart } from 'app/store/cart.slice';
+import { addItemToCart } from 'app/store/slices/cart.slice';
+import { selectProducts, setProducts } from 'app/store/slices/product.slice';
 import CardContainer from 'common/components/card-container/CardContainer';
-import { useGetProductsQuery } from 'app/store/api/product.api';
 import { overlayTextValues } from 'data/overlayTextValues';
-
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { useGetProductsQuery } from 'app/store/services/product.api';
+import DarkSpinner from 'common/components/spinner/dark/DarkSpinner';
 
 function Shop() {
   // const { products } = useContext(ProductContext);
@@ -17,19 +17,16 @@ function Shop() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const {
-    data: products,
-    isLoading,
-    isError,
-    isSuccess,
-  } = useGetProductsQuery();
+  // fetching products here so that both Shop and Category screens can make use of it using redux
+  const { data: products } = useGetProductsQuery();
 
-  products && dispatch(setProducts(products));
+  useEffect(() => {
+    if (products) dispatch(setProducts(products));
+  }) // dispatch of actions should be inside an useEffect to make sure we are not hempering react state update cycle
 
   const [activeCard, setActiveCard] = useState(null);
 
-  let productsCopy =
-    !isLoading && isSuccess && products && JSON.parse(JSON.stringify(products));
+  let productsCopy = products && JSON.parse(JSON.stringify(products));
 
   const onOverlayClickHandler = (e, payload) => {
     // If user added to cart, check current text ie. add to cart and click handler should add the item otherwise redirect to bag/checkout
@@ -83,10 +80,8 @@ function Shop() {
 
   const onTitleClickHandler = (route) => navigate(`/shop/${route}`);
 
-  isError && alert('Something went wrong !!!');
-
-  return isLoading ? (
-    <div>Loading...</div>
+  return !products ? (
+    <DarkSpinner />
   ) : (
     <div>
       {/* On the shop landing page, we want limited products to list, hence slicing the products array */}
