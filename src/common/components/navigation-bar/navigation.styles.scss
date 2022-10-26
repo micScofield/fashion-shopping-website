@@ -5,8 +5,9 @@
     align-items: center;
     margin-top: 1rem;
     height: 3rem;
-    position: sticky;
-    top: 1rem;
+    // position: sticky;
+    // top: 1rem;
+    position: relative;
     z-index: 1;
 
     & .nav-links-container {
@@ -44,5 +45,12 @@
                 }
             }
         }
+    }
+}
+
+@supports (position: sticky) {
+    .navigation {
+        position: sticky;
+        top: calc(1rem + 20px); // 1 rem as per good looking design + additional 20 px as we have specified 20px top padding for all elements in index.scss
     }
 }
