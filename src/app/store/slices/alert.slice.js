@@ -18,6 +18,18 @@ const alertSlice = createSlice({
   },
 });
 
+// use hand written thunk like below for automatically removing alerts after some time
+/*
+export const alert =
+  ({ msg, type }) =>
+  async (dispatch, getState) => {
+    dispatch(setAlert({ msg, type }));
+    setTimeout(() => {
+      dispatch(removeAlert());
+    }, 3000);
+  };
+*/
+
 export const selectAlertMsg = (state) => state.alert.msg;
 export const selectAlertType = (state) => state.alert.type;
 

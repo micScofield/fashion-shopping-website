@@ -29,7 +29,10 @@ export const userApi = createApi({
     signUpWithEmailAndPassword: builder.mutation({
       async queryFn({ email, password, displayName }) {
         console.log(
-          'signUpWithEmailAndPassword: Making firebase utility calls', email, password, displayName
+          'signUpWithEmailAndPassword: Making firebase utility calls',
+          email,
+          password,
+          displayName
         );
         const { user } = await createAuthUserWithEmailAndPassword(
           email,

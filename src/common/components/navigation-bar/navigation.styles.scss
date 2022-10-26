@@ -2,9 +2,12 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    align-items: center;
     margin-top: 1rem;
-    position: relative;
     height: 3rem;
+    position: sticky;
+    top: 1rem;
+    z-index: 1;
 
     & .nav-links-container {
         display: flex;

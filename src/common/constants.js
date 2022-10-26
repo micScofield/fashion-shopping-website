@@ -16,3 +16,9 @@ export const signInButtonTexts = {
   SIGN_IN_WITH_GOOGLE: 'Sign In With Google',
   SIGN_UP: 'Sign Up'
 }
+
+export const ALERT_TYPES = {
+  SUCCESS: 'Success',
+  ERROR: 'Error',
+  WARNING: 'Warning'
+}

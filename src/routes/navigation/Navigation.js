@@ -62,7 +62,6 @@ function Navigation() {
     });
 
   return (
-    <div>
       <NavigationBar Logo={Logo} links={formattedLinks}>
         {/* In case we have icons in nav bar */}
         {icons.length !== 0 &&
@@ -75,7 +74,6 @@ function Navigation() {
         {/* In case we want some on hover modal to show up */}
         {isCartOpen ? <CartDropdown /> : null}
       </NavigationBar>
-    </div>
   );
 }
 

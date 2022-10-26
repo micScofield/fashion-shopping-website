@@ -1,0 +1,45 @@
+$error-color: #dc3545;
+$success-color: #28a745;
+$primary-color: black;
+$warning-color: yellow;
+
+.alert-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    align-items: center;
+    position: sticky;
+    top: 6rem;
+    z-index: 1;
+}
+
+.alert {
+  color: black;
+  background-color: white;
+  font-weight: bold;
+  width: 100%;
+  padding: 0.9rem 0.5rem;
+}
+
+.alert-x-icon {
+    position: absolute;
+    right: 2%;
+    cursor: pointer;
+    color: white;
+}
+
+.success {
+  background-color: $success-color;
+  color: white;
+}
+
+.warning {
+  background-color: $warning-color;
+  color: black;
+}
+
+.error {
+  background-color: $error-color;
+  color: white;
+}
