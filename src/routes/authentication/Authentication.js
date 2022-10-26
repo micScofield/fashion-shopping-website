@@ -5,7 +5,6 @@ import {
   signInButtonTexts,
   validButtons,
 } from 'common/constants';
-
 import {
   signInFormButtons,
   signInFormHeaderData,
@@ -166,12 +165,14 @@ const Authentication = () => {
   };
 
   const onAlertCloseHandler = () => {
-    dispatch(removeAlert())
-  }
+    dispatch(removeAlert());
+  };
 
   return (
     <Fragment>
-      {alertMsg && <Alert msg={alertMsg} type={alertType} onClose={onAlertCloseHandler} />}
+      {alertMsg && (
+        <Alert msg={alertMsg} type={alertType} onClose={onAlertCloseHandler} />
+      )}
       <div className='authentication-container'>
         <Form
           formFields={signInFormFields}

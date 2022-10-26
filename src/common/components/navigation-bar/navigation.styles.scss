@@ -1,12 +1,13 @@
 .navigation {
     display: flex;
     flex-direction: row;
-    border: 1px solid gray;
     justify-content: space-between;
     align-items: center;
-    position: fixed;
+    margin-top: 1rem;
+    height: 3rem;
+    position: sticky;
+    top: 1rem;
     z-index: 1;
-    width: calc(100% - 80px); // 40px is the extra padding we have specified in index.scss for all elements, hence reducing its width by 40px * 2 as it is a fixed positioned element
 
     & .nav-links-container {
         display: flex;

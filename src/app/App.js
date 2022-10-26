@@ -48,8 +48,8 @@ const App = () => {
   return (
     <Fragment>
       <Navigation />
-      {/* Pushing rest of the content down to accommodate navigation bar */}
-      <div style={{ position: 'relative', top: '4rem' }}>
+      {/* <div style={{ position: 'relative', top: '4rem' }}> */}
+      <div>
         <Routes>
           <Route path='/auth' element={<Authentication />} />
           <Route path='/shop' element={<Shop />} />
