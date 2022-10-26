@@ -1,0 +1,25 @@
+.alert {
+  border: 1px solid gray;
+  padding: 1rem 0.5rem;
+  color: black;
+  background-color: white;
+}
+
+.success {
+  & .alert {
+    background-color: green;
+    color: white;
+  }
+}
+
+.warning {
+  & .alert {
+    background-color: yellow;
+    color: black;
+  }
+}
+
+.error ~ .alert {
+  background-color: red;
+  color: white;
+}

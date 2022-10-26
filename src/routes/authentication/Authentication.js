@@ -1,5 +1,6 @@
 import 'routes/authentication/authentication.styles.scss';
 import {
+  ALERT_TYPES,
   BUTTON_TYPE_CLASSES,
   signInButtonTexts,
   validButtons,
@@ -22,10 +23,19 @@ import {
   useSignInWithGoogleMutation,
   useSignUpWithEmailAndPasswordMutation,
 } from 'app/store/services/user.api';
-import { useState } from 'react';
+import { Fragment, useState } from 'react';
+import {
+  selectAlertMsg,
+  selectAlertType,
+  setAlert,
+} from 'app/store/slices/alert.slice';
+import { useDispatch, useSelector } from 'react-redux';
+import { formatAlertMessage } from 'common/utils/javascript/formatAlertMessage';
+import Alert from 'common/components/alert/Alert';
 
 const Authentication = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const [signInButtonLoader, setSignInButtonLoader] = useState(false);
   const [signInWithGoogleButtonLoader, setSignInWithGoogleButtonLoader] =
@@ -35,6 +45,10 @@ const Authentication = () => {
   const [signInWithGoogle] = useSignInWithGoogleMutation();
   const [signInWithEmailAndPassword] = useSignInWithEmailAndPasswordMutation();
   const [signUpWithEmailAndPassword] = useSignUpWithEmailAndPasswordMutation();
+
+  // Alert selector
+  const alertMsg = useSelector(selectAlertMsg);
+  const alertType = useSelector(selectAlertType);
 
   // sign in with google handler
   const signInWithGoogleHandler = async () => {
@@ -90,6 +104,9 @@ const Authentication = () => {
         resetFormFields();
         navigate(-1);
       } else {
+        dispatch(
+          setAlert({ msg: formatAlertMessage(error), type: ALERT_TYPES.ERROR })
+        );
         console.log({ error });
       }
     } catch (err) {
@@ -102,7 +119,12 @@ const Authentication = () => {
   const onSignUpSubmitHandler = async (e, payload, resetFormFields) => {
     e.preventDefault();
 
-    const { signUpEmail, signUpPassword, signUpDisplayName, signUpConfirmPassword } = payload;
+    const {
+      signUpEmail,
+      signUpPassword,
+      signUpDisplayName,
+      signUpConfirmPassword,
+    } = payload;
 
     if (signUpPassword !== signUpConfirmPassword) {
       console.log("Passwords don't match");
@@ -112,9 +134,15 @@ const Authentication = () => {
 
     setSignUpButtonLoader(true);
 
-    console.log({signUpEmail, signUpPassword, signUpDisplayName, signUpConfirmPassword})
+    console.log({
+      signUpEmail,
+      signUpPassword,
+      signUpDisplayName,
+      signUpConfirmPassword,
+    });
 
     try {
+      // redux call expects payload to say email, password and displayName
       const { data, error } = await signUpWithEmailAndPassword({
         email: signUpEmail,
         password: signUpPassword,
@@ -137,26 +165,29 @@ const Authentication = () => {
   };
 
   return (
-    <div className='authentication-container'>
-      <Form
-        formFields={signInFormFields}
-        buttons={signInFormButtons}
-        buttonTypeClasses={BUTTON_TYPE_CLASSES}
-        validButtons={validButtons}
-        headerData={signInFormHeaderData}
-        onSubmit={onSignInSubmitHandler}
-        // extFormData = {{...formData}}
-      />
+    <Fragment>
+      {alertMsg && <Alert msg={alertMsg} type={alertType} />}
+      <div className='authentication-container'>
+        <Form
+          formFields={signInFormFields}
+          buttons={signInFormButtons}
+          buttonTypeClasses={BUTTON_TYPE_CLASSES}
+          validButtons={validButtons}
+          headerData={signInFormHeaderData}
+          onSubmit={onSignInSubmitHandler}
+          // extFormData = {{...formData}}
+        />
 
-      <Form
-        formFields={signUpFormFields}
-        buttons={signUpFormButtons}
-        buttonTypeClasses={BUTTON_TYPE_CLASSES}
-        headerData={signUpFormHeaderData}
-        onSubmit={onSignUpSubmitHandler}
-        // extFormData = {{...formData}}
-      />
-    </div>
+        <Form
+          formFields={signUpFormFields}
+          buttons={signUpFormButtons}
+          buttonTypeClasses={BUTTON_TYPE_CLASSES}
+          headerData={signUpFormHeaderData}
+          onSubmit={onSignUpSubmitHandler}
+          // extFormData = {{...formData}}
+        />
+      </div>
+    </Fragment>
   );
 };
 
