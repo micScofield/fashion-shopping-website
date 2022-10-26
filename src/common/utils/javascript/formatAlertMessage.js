@@ -275,11 +275,11 @@ export const formatAlertMessage = (msg) => {
 
   let formattedMsg = '';
 
-  const firebaseErrorType = code.split('/'[0]);
+  const firebaseErrorType = code.split('/')[0];
 
   switch (firebaseErrorType) {
     case 'auth':
-      formattedMsg = authErrors[firebaseErrorType];
+      formattedMsg = authErrors[code];
       break;
     case 'storage':
       formattedMsg = storageErrors[firebaseErrorType];

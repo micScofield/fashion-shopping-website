@@ -1,25 +1,45 @@
+$error-color: #dc3545;
+$success-color: #28a745;
+$primary-color: black;
+$warning-color: yellow;
+
+.alert-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    align-items: center;
+    position: sticky;
+    top: 5rem;
+    z-index: 1;
+}
+
 .alert {
-  border: 1px solid gray;
-  padding: 1rem 0.5rem;
   color: black;
   background-color: white;
+  font-weight: bold;
+  width: 100%;
+  padding: 0.9rem 0.5rem;
+}
+
+.alert-x-icon {
+    position: absolute;
+    right: 2%;
+    cursor: pointer;
+    color: white;
 }
 
 .success {
-  & .alert {
-    background-color: green;
-    color: white;
-  }
+  background-color: $success-color;
+  color: white;
 }
 
 .warning {
-  & .alert {
-    background-color: yellow;
-    color: black;
-  }
+  background-color: $warning-color;
+  color: black;
 }
 
-.error ~ .alert {
-  background-color: red;
+.error {
+  background-color: $error-color;
   color: white;
 }

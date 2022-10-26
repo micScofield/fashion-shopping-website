@@ -25,6 +25,7 @@ import {
 } from 'app/store/services/user.api';
 import { Fragment, useState } from 'react';
 import {
+  removeAlert,
   selectAlertMsg,
   selectAlertType,
   setAlert,
@@ -164,9 +165,13 @@ const Authentication = () => {
     }
   };
 
+  const onAlertCloseHandler = () => {
+    dispatch(removeAlert())
+  }
+
   return (
     <Fragment>
-      {alertMsg && <Alert msg={alertMsg} type={alertType} />}
+      {alertMsg && <Alert msg={alertMsg} type={alertType} onClose={onAlertCloseHandler} />}
       <div className='authentication-container'>
         <Form
           formFields={signInFormFields}

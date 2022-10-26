@@ -6,7 +6,7 @@ import {
   createUserDocumentFromAuth,
   onAuthStateChangedListener,
 } from 'common/utils/firebase/firebase.utils';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import Authentication from 'routes/authentication/Authentication';
 import Category from 'routes/category/Category';
 import Checkout from 'routes/checkout/Checkout';
@@ -48,14 +48,17 @@ const App = () => {
   return (
     <Fragment>
       <Navigation />
-      <Routes>
-        <Route path='/auth' element={<Authentication />} />
-        <Route path='/shop' element={<Shop />} />
-        <Route path='/shop/:category' element={<Category />} />
-        <Route path='/checkout' element={<Checkout />} />
-        <Route path='/test' element={<Test />} />
-        <Route path='/' element={<Home />} />
-      </Routes>
+      {/* Pushing rest of the content down to accommodate navigation bar */}
+      <div style={{ position: 'relative', top: '4rem' }}>
+        <Routes>
+          <Route path='/auth' element={<Authentication />} />
+          <Route path='/shop' element={<Shop />} />
+          <Route path='/shop/:category' element={<Category />} />
+          <Route path='/checkout' element={<Checkout />} />
+          <Route path='/test' element={<Test />} />
+          <Route path='/' element={<Home />} />
+        </Routes>
+      </div>
     </Fragment>
   );
 };

@@ -3,7 +3,7 @@ import React from 'react';
 
 import 'common/components/alert/alert.styles.scss'
 
-function Alert({ msg, type }) {
+function Alert({ msg, type, onClose }) {
   const alertCssClasses = ['alert'];
 
   switch (type) {
@@ -19,7 +19,10 @@ function Alert({ msg, type }) {
     default:
       break;
   }
-  return <div className={alertCssClasses.join(' ')}>{msg}</div>;
+  return <div className="alert-container">
+    <span className={alertCssClasses.join(' ')}>{msg}</span>
+    <span className='alert-x-icon' onClick={onClose}>&#10005;</span>
+  </div>
 }
 
 export default Alert;
