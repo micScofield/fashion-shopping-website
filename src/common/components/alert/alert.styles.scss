@@ -9,9 +9,17 @@ $warning-color: yellow;
     justify-content: space-between;
     width: 100%;
     align-items: center;
+    // position: sticky;
+    // top: 6rem;
+    position: relative;
+    z-index: 1;
+}
+
+@supports (position: sticky) {
+  .alert-container {
     position: sticky;
     top: 6rem;
-    z-index: 1;
+  }
 }
 
 .alert {
