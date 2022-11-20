@@ -1,42 +1,57 @@
 .checkout-container-wrapper {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
-    & .checkout-container {
-        width: 55%;
-        margin: 1rem 0;
+  & .checkout-container {
+    width: 55%;
 
-        @media screen and (max-width: 1000px) {
-            width: 70%;
-        }
-
-        @media screen and (max-width: 800px) {
-            width: 80%;
-        }
-
-        @media screen and (max-width: 600px) {
-            width: 90%;
-        }
-    
-        & .checkout-header {
-            display: flex;
-            flex-direction: row;
-            justify-content: space-around;
-            border-bottom: 1px solid darkgrey;
-            margin: 1rem 0;
-            padding: 1rem 0;
-
-            & .header-block {
-                text-align: center;
-                width: 20%;
-            }
-        }
-    
-        & .total {
-            font-size: 2rem;
-            margin-top: 1rem;
-            text-align: right;
-        }
+    @media screen and (max-width: 1000px) {
+      width: 70%;
     }
+
+    @media screen and (max-width: 800px) {
+      width: 80%;
+    }
+
+    @media screen and (max-width: 600px) {
+      width: 90%;
+    }
+
+    & .checkout-header {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
+      border-bottom: 1px solid darkgrey;
+      padding: 1rem 0;
+      // Using padding top that we don't need to use margin, and when we stick this header on screen, the scolled content wont show when going upwards
+      padding-top: 3rem;
+      margin-bottom: 1rem;
+      position: relative; // so that we can make it sticky if browser supports (See CSS below)
+      z-index: 1;
+      background: white;
+
+      @supports (position: sticky) {
+        position: sticky;
+        // determine top height by checking null-spacer and navigation container's height so that it sticks to the same place on scroll
+        top: 5rem;
+      }
+
+      @media screen and (max-width: 800px) {
+        // because we have decreased navigation's top by 0.5 rem for mobile devices
+        top: 4.5rem;
+      }
+
+      & .header-block {
+        text-align: center;
+        width: 20%;
+      }
+    }
+
+    & .total {
+      font-size: 2rem;
+      margin-top: 1rem;
+      text-align: right;
+    }
+  }
 }
