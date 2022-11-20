@@ -32,8 +32,8 @@ const Card = ({ cardData, large }) => {
   if (showOverlayByDefault)
     cardContainerCssClasses.push('card-body-container-with-overlay');
   else cardContainerCssClasses.push('card-body-container-without-overlay');
-  if (overlay && overlay.length < 2) cardContainerCssClasses.push('small');
-  if (overlayPosition === 'bottom') cardContainerCssClasses.push('bottom');
+  if (overlay && overlay.length < 2) cardContainerCssClasses.push('overlay-header-small');
+  if (overlayPosition === 'bottom') cardContainerCssClasses.push('overlay-position-bottom');
 
   if (!onOverlayClick) {
     onOverlayClick = () => {};

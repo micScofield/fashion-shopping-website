@@ -1,18 +1,33 @@
 .card-container-flex {
+    border: 1px solid black;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     flex-wrap: wrap;
     margin: 2rem 0;
+    gap: 15px;
+
+    @media screen and (max-width: 800px) {
+        gap: 10px;
+    }
 }
 
 .card-container-grid {
+    border: 1px solid black;
     margin: 2rem 0;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+
+    @media screen and (max-width: 800px) {
+        grid-template-columns: repeat(2, 1fr);
+        margin: 1rem 0;
+        gap: 10px;
+    }
 }
 
 .card-container-title {
+    border: 1px solid black;
     cursor: pointer;
 }
 

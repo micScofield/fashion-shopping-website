@@ -23,7 +23,9 @@ function Category() {
   const dispatch = useDispatch();
 
   // fetching products here so that both Shop and Category screens can make use of it using redux
-  const { data: products } = useGetProductsQuery();
+  const { data: products, error } = useGetProductsQuery();
+
+  if (error) console.log('Network Error', error);
 
   useEffect(() => {
     if (products) dispatch(setProducts(products));

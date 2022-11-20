@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react';
-
-// import { ProductContext } from 'contexts/product.context';
+import { useEffect, useState, useContext } from 'react';
+// import { ProductContext } from 'contexts/pre-redux/product.context';
 // import { CartContext } from 'contexts/cart.context';
+import { InternetConnectionStatusContext } from 'contexts/internetConnectivity.context';
 import { addItemToCart } from 'app/store/slices/cart.slice';
 import { selectProducts, setProducts } from 'app/store/slices/product.slice';
 import CardContainer from 'common/components/card-container/CardContainer';
@@ -10,23 +10,38 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useGetProductsQuery } from 'app/store/services/product.api';
 import DarkSpinner from 'common/components/spinner/dark/DarkSpinner';
+import {
+  selectAlertMsg,
+  setAlert,
+  selectAlertType,
+  removeAlert
+} from 'app/store/slices/alert.slice';
+import Alert from 'common/components/alert/Alert';
+import { ALERT_TYPES, NO_INTERNET_MESSAGE } from 'common/constants';
 
 function Shop() {
   // const { products } = useContext(ProductContext);
   // const { addItemToCart } = useContext(CartContext);
+  const { isOnline } = useContext(InternetConnectionStatusContext);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   // fetching products here so that both Shop and Category screens can make use of it using redux
-  const { data: products } = useGetProductsQuery();
+  const { data: products, error, isLoading } = useGetProductsQuery();
+
+  if (error) console.log('Error', error);
 
   useEffect(() => {
     if (products) dispatch(setProducts(products));
-  }) // dispatch of actions should be inside an useEffect to make sure we are not hempering react state update cycle
+  }); // dispatch of actions should be inside an useEffect to make sure we are not hempering react state update cycle
 
   const [activeCard, setActiveCard] = useState(null);
 
   let productsCopy = products && JSON.parse(JSON.stringify(products));
+
+  // select alerts to display to the user
+  const alertMsg = useSelector(selectAlertMsg);
+  const alertType = useSelector(selectAlertType);
 
   const onOverlayClickHandler = (e, payload) => {
     // If user added to cart, check current text ie. add to cart and click handler should add the item otherwise redirect to bag/checkout
@@ -42,6 +57,17 @@ function Shop() {
       navigate('/checkout');
     }
   };
+
+  useEffect(() => {
+    if (!isOnline) {
+      dispatch(
+        setAlert({
+          type: ALERT_TYPES.WARNING,
+          msg: NO_INTERNET_MESSAGE,
+        })
+      );
+    }
+  }, [isOnline]);
 
   const formattedProducts =
     productsCopy &&
@@ -80,10 +106,17 @@ function Shop() {
 
   const onTitleClickHandler = (route) => navigate(`/shop/${route}`);
 
-  return !products ? (
+  const onAlertCloseHandler = () => {
+    dispatch(removeAlert());
+  };
+
+  return !products || isLoading ? (
     <DarkSpinner />
   ) : (
     <div>
+      {alertMsg && (
+        <Alert msg={alertMsg} type={alertType} onClose={onAlertCloseHandler} />
+      )}
       {/* On the shop landing page, we want limited products to list, hence slicing the products array */}
       {res &&
         Object.keys(res).length !== 0 &&
