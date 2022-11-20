@@ -3,6 +3,7 @@ import { rootReducer } from 'app/store/root-reducer';
 import { persistReducer, persistStore } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 // import logger from 'redux-logger';
+
 import { middlewares } from 'app/store/middlewares';
 
 /*

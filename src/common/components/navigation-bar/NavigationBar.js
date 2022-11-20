@@ -11,7 +11,7 @@ function NavigationBar({ Logo, links, children }) {
   return (
     <div className='navigation'>
       {Logo && (
-        <Link className='logo-container' to='/'>
+        <Link to='/'>
           <Logo />
         </Link>
       )}

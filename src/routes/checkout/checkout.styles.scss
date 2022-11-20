@@ -6,6 +6,18 @@
     & .checkout-container {
         width: 55%;
         margin: 1rem 0;
+
+        @media screen and (max-width: 1000px) {
+            width: 70%;
+        }
+
+        @media screen and (max-width: 800px) {
+            width: 80%;
+        }
+
+        @media screen and (max-width: 600px) {
+            width: 90%;
+        }
     
         & .checkout-header {
             display: flex;

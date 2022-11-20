@@ -1,56 +1,67 @@
 .navigation {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  height: 3rem;
+  position: relative; // its set to sticky if browser supports, find CSS for that below
+  z-index: 1;
+  background: white;
+
+  & .nav-links-container {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 1rem;
-    height: 3rem;
-    // position: sticky;
-    // top: 1rem;
-    position: relative;
-    z-index: 1;
+    justify-content: flex-end;
+    width: 50%;
 
-    & .nav-links-container {
+    @media screen and (max-width: 800px) {
+        width: 80%;
+    }
+
+    & .nav-link {
+      margin: 0 1rem;
+      font-size: 1.2rem;
+
+      &:hover {
+        font-weight: bold;
+      }
+
+      & .cart-icon-container {
+        position: relative;
+      }
+
+      & .shopping-icon {
+        height: 1.5rem;
+      }
+
+      & .item-count-container {
         display: flex;
         flex-direction: row;
         justify-content: center;
         align-items: center;
 
-        & .nav-link {
-            margin: 0 1rem;
-            font-size: 1.2rem;
-
-            &:hover {
-                font-weight: bold;
-            }
-
-            & .cart-icon-container {
-                position: relative;
-            }
-
-            & .shopping-icon {
-                height: 1.5rem;
-            }
-
-            & .item-count-container {
-                display: flex;
-                flex-direction: row;
-                justify-content: center;
-                align-items: center;
-
-                & .item-count {
-                    position: absolute;
-                    font-size: 0.9rem;
-                    top: 19%;
-                }
-            }
+        & .item-count {
+          position: absolute;
+          font-size: 0.9rem;
+          top: 19%;
         }
+      }
     }
+  }
 }
 
 @supports (position: sticky) {
+  .navigation {
+    position: sticky;
+    // 1 rem as per good looking design + additional 20 px as we have specified 20px top padding for all elements in index.scss
+    top: 2rem;
+  }
+
+  @media screen and (max-width: 800px) {
     .navigation {
-        position: sticky;
-        top: calc(1rem + 20px); // 1 rem as per good looking design + additional 20 px as we have specified 20px top padding for all elements in index.scss
+        top: 1.5rem;
     }
+  }
 }
+
+

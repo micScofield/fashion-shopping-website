@@ -22,3 +22,5 @@ export const ALERT_TYPES = {
   ERROR: 'Error',
   WARNING: 'Warning'
 }
+
+export const NO_INTERNET_MESSAGE = 'Bad connection detected. You may not be able to use all features'

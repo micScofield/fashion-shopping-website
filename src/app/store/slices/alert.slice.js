@@ -1,5 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+/*
+To see supported types, check this file - 'common/constants';
+*/
+
 const alertSlice = createSlice({
   name: 'alert',
   initialState: {

@@ -1,21 +1,28 @@
-import { Fragment, useEffect } from 'react';
+import { Fragment, useEffect, lazy, Suspense } from 'react';
 import { Route, Routes } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
 import { setCurrentUser } from 'app/store/slices/user.slice';
+// import { selectProducts, setProducts } from './store/slices/product.slice';
+// import { useGetProductsQuery } from './store/services/product.api';
 import {
   createUserDocumentFromAuth,
   onAuthStateChangedListener,
 } from 'common/utils/firebase/firebase.utils';
-import { useDispatch } from 'react-redux';
-import Authentication from 'routes/authentication/Authentication';
-import Category from 'routes/category/Category';
-import Checkout from 'routes/checkout/Checkout';
+import DarkSpinner from 'common/components/spinner/dark/DarkSpinner';
+
 import Home from 'routes/home/Home';
-import Test from 'routes/test/Test';
 import Navigation from 'routes/navigation/Navigation';
-import Shop from 'routes/shop/Shop';
-import { selectProducts, setProducts } from './store/slices/product.slice';
-import { useGetProductsQuery } from './store/services/product.api';
+import NoInternetWrapper from 'common/components/no-internet-wrapper/NoInternet';
+import NullSpacer from 'common/components/null-spacer/NullSpacer';
+
+const Authentication = lazy(() =>
+  import('routes/authentication/Authentication')
+);
+const Checkout = lazy(() => import('routes/checkout/Checkout'));
+const Test = lazy(() => import('routes/test/Test'));
+const Shop = lazy(() => import('routes/shop/Shop'));
+const Category = lazy(() => import('routes/category/Category'));
 
 const App = () => {
   const dispatch = useDispatch();
@@ -47,17 +54,20 @@ const App = () => {
 
   return (
     <Fragment>
+      <NullSpacer />
       <Navigation />
       {/* <div style={{ position: 'relative', top: '4rem' }}> */}
       <div>
-        <Routes>
-          <Route path='/auth' element={<Authentication />} />
-          <Route path='/shop' element={<Shop />} />
-          <Route path='/shop/:category' element={<Category />} />
-          <Route path='/checkout' element={<Checkout />} />
-          <Route path='/test' element={<Test />} />
-          <Route path='/' element={<Home />} />
-        </Routes>
+        <Suspense fallback={<DarkSpinner />}>
+          <Routes>
+            <Route path='/auth' element={<Authentication />} />
+            <Route path='/shop' element={<Shop />} />
+            <Route path='/shop/:category' element={<Category />} />
+            <Route path='/checkout' element={<Checkout />} />
+            <Route path='/test' element={<Test />} />
+            <Route path='/' element={<Home />} />
+          </Routes>
+        </Suspense>
       </div>
     </Fragment>
   );
