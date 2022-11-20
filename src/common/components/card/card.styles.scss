@@ -58,10 +58,10 @@
     left: 50%;
     transform: translate(-50%, -50%);
     border: 1px solid white;
-    color: black;
     padding: 0 1.5rem;
     opacity: 0.8;
-    background-color: whitesmoke;
+    background-color: white;
+    color: rgb(74, 74, 74);
     text-align: center;
 
     &:hover {
@@ -86,10 +86,10 @@
     left: 50%;
     transform: translate(-50%, -50%);
     border: 1px solid white;
-    color: black;
     padding: 0 2rem;
     opacity: 0.8;
-    background-color: whitesmoke;
+    background-color: white;
+    color: rgb(74, 74, 74);
     text-align: center;
     visibility: hidden;
 
