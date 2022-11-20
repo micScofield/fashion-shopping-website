@@ -14,6 +14,7 @@ import DarkSpinner from 'common/components/spinner/dark/DarkSpinner';
 import Home from 'routes/home/Home';
 import Navigation from 'routes/navigation/Navigation';
 import NoInternetWrapper from 'common/components/no-internet-wrapper/NoInternet';
+import NullSpacer from 'common/components/null-spacer/NullSpacer';
 
 const Authentication = lazy(() =>
   import('routes/authentication/Authentication')
@@ -53,6 +54,7 @@ const App = () => {
 
   return (
     <Fragment>
+      <NullSpacer />
       <Navigation />
       {/* <div style={{ position: 'relative', top: '4rem' }}> */}
       <div>

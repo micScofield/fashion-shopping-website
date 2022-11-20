@@ -57,14 +57,12 @@
   .navigation {
     position: sticky;
     // 1 rem as per good looking design + additional 20 px as we have specified 20px top padding for all elements in index.scss
-    // top: calc(1rem + 20px);
-    top: 0;
+    top: 2rem;
   }
 
   @media screen and (max-width: 800px) {
     .navigation {
-        top: calc(1rem + 10px);
-        // top: 0;
+        top: 1.5rem;
     }
   }
 }
