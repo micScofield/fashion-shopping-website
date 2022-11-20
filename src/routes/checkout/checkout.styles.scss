@@ -1,11 +1,9 @@
 .checkout-container-wrapper {
-    border: 1px solid black;
     display: flex;
     justify-content: center;
     align-items: center;
 
     & .checkout-container {
-        border: 1px solid red;
         width: 55%;
         margin: 1rem 0;
 
@@ -22,7 +20,6 @@
         }
     
         & .checkout-header {
-            border: 1px solid blue;
             display: flex;
             flex-direction: row;
             justify-content: space-around;

@@ -1,5 +1,4 @@
 .card-container-flex {
-  border: 1px solid black;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -15,7 +14,6 @@
 }
 
 .card-container-grid {
-  border: 1px solid black;
   margin: 2rem 0;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -38,7 +36,6 @@
 }
 
 .card-container-title {
-  border: 1px solid black;
   cursor: pointer;
 }
 

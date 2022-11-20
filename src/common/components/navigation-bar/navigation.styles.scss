@@ -3,16 +3,13 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  // margin-top: 1rem;
   height: 3rem;
-  border: 1px solid #808080;
   position: relative; // its set to sticky if browser supports, find CSS for that below
   z-index: 1;
   background: white;
 
   & .nav-links-container {
     display: flex;
-    border: 1px solid black;
     flex-direction: row;
     justify-content: flex-end;
     width: 50%;

@@ -4,7 +4,6 @@
     position: relative;
     flex: 1 1 auto;
     cursor: pointer;
-    border: 1px solid red;
     overflow: scroll;
 
     @media screen and (max-width: 800px) {
@@ -28,7 +27,6 @@
         height: 100%;
         width: 100%;
         overflow: hidden;
-        border: 1px solid green;
 
         & .background-image {
             height: 100%;
