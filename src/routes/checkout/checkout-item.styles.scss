@@ -2,25 +2,33 @@
     display: flex;
     justify-content: space-between;
     border-bottom: 1px solid darkgrey;
-    min-height: 150px;
+    height: 150px;
     padding: 1rem 0;
+    border: 1px solid green;
+
+    @media screen and (max-width: 600px) {
+        height: 125px;
+    }
 
     & .image-container {
         width: 20%;
         img {
             height: 100%;
-            width: 150px;
+            width: 100%;
         }
     }
 
     & .name {
+        border: 1px solid aqua;
         display: flex;
         width: 20%;
         justify-content: center;
+        text-align: center;
         align-items: center;
     }
 
     & .quantity {
+        border: 1px solid aqua;
         width: 20%;
         display: flex;
         justify-content: center;
@@ -28,11 +36,13 @@
     }
 
     & .arrow {
+        border: 1px solid aqua;
         cursor: pointer;
         margin: 0 1rem;
     }
 
     & .price {
+        border: 1px solid aqua;
         width: 20%;
         display: flex;
         align-items: center;
@@ -40,6 +50,7 @@
     }
 
     & .remove-button-wrapper {
+        border: 1px solid aqua;
         width: 20%;
         display: flex;
         align-items: center;
