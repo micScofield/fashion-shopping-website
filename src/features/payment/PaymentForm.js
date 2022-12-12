@@ -24,43 +24,51 @@ const PaymentForm = () => {
 
 		if (!stripe || !elements) return
 
+		const stripePaymentBody = {
+			amount: amount * 100, // in centes
+			name: currentUser?.displayName ? currentUser.displayName : 'Guest',
+			description: 'Payment Remarks',
+			address: {
+				line1: '510 Townsend St',
+				postal_code: '000000',
+				city: 'San Francisco',
+				state: 'CA',
+				country: 'US',
+			},
+		}
+
 		// create a payment intent
 		const response = await fetch('/.netlify/functions/create-payment-intent', {
 			method: 'post',
 			headers: {
 				'Content-Type': 'application/json',
 			},
-			body: JSON.stringify({ amount: amount * 100 }),
+			body: JSON.stringify(stripePaymentBody),
 		}).then((res) => res.json())
 
-		// PS. what user enters is considered as cents, hence converting above
+		const clientSecret = response.paymentIntent?.client_secret
 
-		console.log(response)
+		let paymentResult
 
-		const clientSecret = response.paymentIntent.client_secret
-
-		console.log(clientSecret)
-
-		const paymentResult = await stripe.confirmCardPayment(clientSecret, {
-			payment_method: {
-				card: elements.getElement(CardElement),
-				billing_details: {
-					name: currentUser ? currentUser.displayName : 'Guest',
+		if (clientSecret) {
+			paymentResult = await stripe.confirmCardPayment(clientSecret, {
+				payment_method: {
+					card: elements.getElement(CardElement),
 				},
-			},
-		})
-		// any element can only exist once. Stripe knows these elements and we should be using them.
+			})
+			// any element can only exist once. Stripe knows these elements and we should be using them.
 
-		if (paymentResult.error) {
-			alert(paymentResult.error)
-			console.log(paymentResult.error)
-			setIsPaymentProcessing(false)
-		} else {
-			if (paymentResult.paymentIntent.status === 'succeeded') {
-				alert('Payment Succeeded')
+			if (paymentResult.error) {
+				alert(paymentResult.error)
+				console.log(paymentResult.error)
+			} else {
+				if (paymentResult.paymentIntent.status === 'succeeded') {
+					alert('Payment Succeeded')
+				}
 			}
-			setIsPaymentProcessing(false)
 		}
+
+		setIsPaymentProcessing(false)
 	}
 
 	return (
@@ -68,6 +76,7 @@ const PaymentForm = () => {
 			<form className='payment-container' onSubmit={paymentHandler}>
 				<h2>Credit Card Payment: </h2>
 				<CardElement />
+				<div className='mb-2'></div>
 				<Button
 					text='Pay Now'
 					type='submit'
