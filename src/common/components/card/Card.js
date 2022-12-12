@@ -1,9 +1,8 @@
-import PropTypes from 'prop-types';
-
-import 'common/components/card/card.styles.scss';
-
+import PropTypes from "prop-types";
+import "common/components/card/card.styles.scss";
 /*
 Overlay supports upto 2 values
+Footer needs 2 values
 */
 
 const Card = ({ cardData, large }) => {
@@ -18,22 +17,24 @@ const Card = ({ cardData, large }) => {
   } = cardData;
 
   // Determining CSS classes for card wrapper
-  let cardWrapperCssClasses = ['card-wrapper'];
+  let cardWrapperCssClasses = ["card-wrapper"];
   if (disableImageTransition)
-    cardWrapperCssClasses.push('disable-image-transition');
-  if (large) cardWrapperCssClasses.push('large');
-  if (footer) cardWrapperCssClasses.push('shortened-image-wrapper');
+    cardWrapperCssClasses.push("disable-image-transition");
+  if (large) cardWrapperCssClasses.push("large");
+  if (footer) cardWrapperCssClasses.push("shortened-image-wrapper");
 
   // Determining CSS classes for image
-  let backgroundImageClasses = ['background-image'];
+  let backgroundImageClasses = ["background-image"];
 
   // Determining CSS classes for card container
   let cardContainerCssClasses = [];
   if (showOverlayByDefault)
-    cardContainerCssClasses.push('card-body-container-with-overlay');
-  else cardContainerCssClasses.push('card-body-container-without-overlay');
-  if (overlay && overlay.length < 2) cardContainerCssClasses.push('overlay-header-small');
-  if (overlayPosition === 'bottom') cardContainerCssClasses.push('overlay-position-bottom');
+    cardContainerCssClasses.push("card-body-container-with-overlay");
+  else cardContainerCssClasses.push("card-body-container-without-overlay");
+  if (overlay && overlay.length < 2)
+    cardContainerCssClasses.push("overlay-header-small");
+  if (overlayPosition === "bottom")
+    cardContainerCssClasses.push("overlay-position-bottom");
 
   if (!onOverlayClick) {
     onOverlayClick = () => {};
@@ -41,15 +42,15 @@ const Card = ({ cardData, large }) => {
 
   return (
     <>
-      <div className={cardWrapperCssClasses.join(' ')}>
+      <div className={cardWrapperCssClasses.join(" ")}>
         {imageUrl && (
           <div
             className={`image-wrapper ${
-              footer ? 'shortened-image-wrapper' : ''
+              footer ? "shortened-image-wrapper" : ""
             }`}
           >
             <div
-              className={backgroundImageClasses.join(' ')}
+              className={backgroundImageClasses.join(" ")}
               style={{
                 backgroundImage: `url(${imageUrl})`,
               }}
@@ -59,10 +60,14 @@ const Card = ({ cardData, large }) => {
 
         {overlay && (
           <div
-            className={cardContainerCssClasses.join(' ')}
-            onClick={(e) => onOverlayClick(e, { cardData, currentText: overlay[0] })}
+            className={cardContainerCssClasses.join(" ")}
+            onClick={(e) =>
+              onOverlayClick(e, { cardData, currentText: overlay[0] })
+            }
           >
-            {overlay[0] && <h2 dangerouslySetInnerHTML={{__html: overlay[0]}} />}
+            {overlay[0] && (
+              <h2 dangerouslySetInnerHTML={{ __html: overlay[0] }} />
+            )}
             {overlay[1] && <p>{overlay[1]}</p>}
           </div>
         )}

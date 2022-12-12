@@ -20,8 +20,8 @@ function Alert({ msg, type, onClose }) {
       break;
   }
   return <div className="alert-container">
-    <span className={alertCssClasses.join(' ')}>{msg}</span>
-    <span className='alert-x-icon' onClick={onClose}>&#10005;</span>
+    <span test-id='alert-msg' className={alertCssClasses.join(' ')}>{msg}</span>
+    <span test-id='alert-x-icon' className='alert-x-icon' onClick={onClose}>&#10005;</span>
   </div>
 }
 

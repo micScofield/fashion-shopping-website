@@ -33,6 +33,7 @@ function Button(props) {
       type={type}
       onClick={onClick}
       disabled={flag}
+      test-id='button'
     >
       <span className='button-text'>{text}</span>
     </button>
@@ -43,7 +44,10 @@ export default Button;
 
 Button.propTypes = {
   type: PropTypes.string,
+  text: PropTypes.string,
   onClick: PropTypes.func,
   secondaryButtonClass: PropTypes.string,
   validButtons: PropTypes.array,
+  isLoading: PropTypes.bool,
+  disabled: PropTypes.bool
 };
