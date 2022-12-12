@@ -2,11 +2,7 @@ import { selectCartTotal } from 'app/store/slices/cart.slice'
 import { selectUser } from 'app/store/slices/user.slice'
 import Button from 'common/components/button/Button'
 
-const {
-	CardElement,
-	useStripe,
-	useElements,
-} = require('@stripe/react-stripe-js')
+import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js'
 
 import 'features/payment/PaymentForm.styles.scss'
 import { useState } from 'react'
@@ -23,8 +19,8 @@ const PaymentForm = () => {
 	const paymentHandler = async (e) => {
 		e.preventDefault()
 
-        // enable loading and disable button
-        setIsPaymentProcessing(true)
+		// enable loading and disable button
+		setIsPaymentProcessing(true)
 
 		if (!stripe || !elements) return
 
@@ -58,12 +54,12 @@ const PaymentForm = () => {
 		if (paymentResult.error) {
 			alert(paymentResult.error)
 			console.log(paymentResult.error)
-            setIsPaymentProcessing(false)
+			setIsPaymentProcessing(false)
 		} else {
 			if (paymentResult.paymentIntent.status === 'succeeded') {
 				alert('Payment Succeeded')
 			}
-            setIsPaymentProcessing(false)
+			setIsPaymentProcessing(false)
 		}
 	}
 
@@ -72,7 +68,13 @@ const PaymentForm = () => {
 			<form className='payment-container' onSubmit={paymentHandler}>
 				<h2>Credit Card Payment: </h2>
 				<CardElement />
-				<Button text='Pay Now' type='submit' isLoading={isPaymentProcessing} disabled={isPaymentProcessing} onClick={paymentHandler} />
+				<Button
+					text='Pay Now'
+					type='submit'
+					isLoading={isPaymentProcessing}
+					disabled={isPaymentProcessing}
+					onClick={paymentHandler}
+				/>
 			</form>
 		</div>
 	)
