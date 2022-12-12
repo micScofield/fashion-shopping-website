@@ -13,6 +13,8 @@ const PaymentForm = () => {
 	const elements = useElements()
 
 	const [isPaymentProcessing, setIsPaymentProcessing] = useState(false)
+	const [isPaymentSucceeded, setIsPaymentSucceeded] = useState(false)
+
 	const amount = useSelector(selectCartTotal)
 	const currentUser = useSelector(selectUser)
 
@@ -61,17 +63,19 @@ const PaymentForm = () => {
 			if (paymentResult.error) {
 				alert(paymentResult.error)
 				console.log(paymentResult.error)
+				setIsPaymentSucceeded(false)
 			} else {
 				if (paymentResult.paymentIntent.status === 'succeeded') {
-					alert('Payment Succeeded')
+					setIsPaymentSucceeded(true)
 				}
 			}
 		}
 
 		setIsPaymentProcessing(false)
+		elements.getElement(CardElement).clear()
 	}
 
-	return (
+	return !isPaymentSucceeded ? (
 		<div className='payment-form-container'>
 			<form className='payment-container' onSubmit={paymentHandler}>
 				<h2>Credit Card Payment: </h2>
@@ -86,6 +90,8 @@ const PaymentForm = () => {
 				/>
 			</form>
 		</div>
+	) : (
+		<h2> Payment Succeeded </h2>
 	)
 }
 
