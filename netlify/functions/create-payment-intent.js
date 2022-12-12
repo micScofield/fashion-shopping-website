@@ -3,14 +3,9 @@ const Stripe = require('stripe')
 
 // consider this as a express function to understand better
 exports.handler = async (e) => {
-	// const stripe = new Stripe(
-	// 	'sk_test_51J2wBOSJifs6EgWZGHbLHWHWfv2WMvWAhcyeNNXPCUWlTFZq4635Vh9ENfvvojQ9zQS38j4rmKRQmtAUFhtOCOPJ00VxEcX6rs'
-	// )
-
 	const stripe = new Stripe(
 		process.env.STRIPE_SECRET_KEY
 	)
-
 
 	try {
 		console.log(e.body)
