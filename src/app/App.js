@@ -33,10 +33,12 @@ const App = () => {
       if (user) {
         createUserDocumentFromAuth(user);
       }
+      console.log(user)
       dispatch(
         setCurrentUser({
           accessToken: user ? user.accessToken : null,
           id: user ? user.uid : null,
+          displayName: user.displayName
         })
       );
     });
