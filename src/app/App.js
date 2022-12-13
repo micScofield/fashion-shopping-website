@@ -38,7 +38,7 @@ const App = () => {
         setCurrentUser({
           accessToken: user ? user.accessToken : null,
           id: user ? user.uid : null,
-          displayName: user.displayName
+          displayName: user?.displayName
         })
       );
     });

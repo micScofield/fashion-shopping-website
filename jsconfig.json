@@ -1,6 +1,6 @@
 {
-    "compilerOptions": {
-        "baseUrl": "src"
-    },
-    "include": ["src", "netlify"]
+	"compilerOptions": {
+		"baseUrl": "src"
+	},
+	"include": ["src", "netlify"]
 }
