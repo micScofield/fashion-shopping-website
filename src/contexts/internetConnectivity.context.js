@@ -1,43 +1,43 @@
-const { createContext, useState, useEffect } = require('react');
+const { createContext, useState, useEffect } = require('react')
 
 export const InternetConnectionStatusContext = createContext({
-  isOnline: true,
-});
+	isOnline: true,
+})
 
 export const InternetConnectionStatusProvider = ({ children }) => {
-  const [isOnline, setOnline] = useState(true);
+	const [isOnline, setOnline] = useState(true)
 
-  useEffect(() => {
-    setOnline(navigator.onLine);
+	useEffect(() => {
+		setOnline(navigator.onLine)
 
-    window.addEventListener('online', () => {
-      setOnline(true);
-    });
+		window.addEventListener('online', () => {
+			setOnline(true)
+		})
 
-    window.addEventListener('offline', () => {
-      setOnline(false);
-    });
+		window.addEventListener('offline', () => {
+			setOnline(false)
+		})
 
-    return () => {
-      window.removeEventListener('online', () => {
-        setOnline(true);
-      });
+		return () => {
+			window.removeEventListener('online', () => {
+				setOnline(true)
+			})
 
-      window.removeEventListener('offline', () => {
-        setOnline(false);
-      });
-    };
-  }, [navigator.onLine]);
+			window.removeEventListener('offline', () => {
+				setOnline(false)
+			})
+		}
+	}, [navigator.onLine])
 
-  console.log({isOnline})
+	const value = {
+		isOnline,
+	}
 
-  const value = {
-    isOnline,
-  };
+	console.log({ isOnline })
 
-  return (
-    <InternetConnectionStatusContext.Provider value={value}>
-      {children}
-    </InternetConnectionStatusContext.Provider>
-  );
-};
+	return (
+		<InternetConnectionStatusContext.Provider value={value}>
+			{children}
+		</InternetConnectionStatusContext.Provider>
+	)
+}
